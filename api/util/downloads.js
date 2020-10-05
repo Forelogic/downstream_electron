@@ -86,7 +86,7 @@ downloadUtil.getDownloadLinks = function getDownloadLinks (manifestId, localPath
         const index = mediaFile.indexOf('.mp4')
         let fileName = mediaFile.substring(0, index) + '.mp4'
         remoteUrl = utilUrl.joinPathWithFile(mediaBaseUrl, mediaFile);
-        localUrl = utilUrl.joinPathWithFile(localPath, fileName, mediaFile);
+        localUrl = utilUrl.joinPathWithFile(localPath, mediaBaseUrl, fileName);
       } else {
         remoteUrl = utilUrl.joinPathWithFile(remotePath, mediaBaseUrl, mediaFile);
         localUrl = utilUrl.joinPathWithFile(localPath, mediaBaseUrl, mediaFile);
