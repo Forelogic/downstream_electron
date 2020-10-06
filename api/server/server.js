@@ -45,6 +45,7 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
     if (!fs.existsSync(path.join(serverPath, CHILD_SCRIPT_FILENAME))) {
       serverPath = app.getAppPath();
       console.log(`3 serverPath = ${serverPath}`);
+      console.log(`__dirname = ${__dirname}`);
       if (!fs.existsSync(path.join(serverPath, CHILD_SCRIPT_FILENAME))) {
         serverPath = __dirname;
         console.log(`4 serverPath = ${serverPath}`);
