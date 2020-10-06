@@ -60,7 +60,10 @@ function parseManifestWithChoosenRepresentations (manifest, representations) {
     for (let i = 0, j = repr.length; i < j; i++) {
       let baseURL = repr[i].currentNode.getElementsByTagName("BaseURL")[0];
       if (baseURL && baseURL.textContent.match(constants.regexpProtocolRemove)) {
-        baseURL.textContent = baseURL.textContent.replace(constants.regexpProtocolRemove, "");
+        let index = baseURL.textContent.indexOf('.mp4');
+        let fileName = baseURL.textContent.substring(0, index) + '.mp4';
+        let lastIndex = fileName.lastIndexOf('/');
+        baseURL.textContent = fileName.slice(lastIndex + 1);
       }
     }
   }
