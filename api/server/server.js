@@ -38,12 +38,16 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
 
   // NOTE: this is so ugly FIXME
   let serverPath = path.join(app.getAppPath(), 'node_modules/downstream-electron');
+  console.log(`1 serverPath = ${serverPath}`);
   if (!fs.existsSync(path.join(serverPath, CHILD_SCRIPT_FILENAME))) {
     serverPath = path.join(app.getAppPath(), 'node_modules/downstream-electron/api/server');
+    console.log(`2 serverPath = ${serverPath}`);
     if (!fs.existsSync(path.join(serverPath, CHILD_SCRIPT_FILENAME))) {
       serverPath = app.getAppPath();
+      console.log(`3 serverPath = ${serverPath}`);
       if (!fs.existsSync(path.join(serverPath, CHILD_SCRIPT_FILENAME))) {
         serverPath = __dirname;
+        console.log(`4 serverPath = ${serverPath}`);
       }
     }
   }
