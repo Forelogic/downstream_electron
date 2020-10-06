@@ -46,10 +46,13 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
       serverPath = app.getAppPath();
       console.log(`3 serverPath = ${serverPath}`);
       console.log(`__dirname = ${__dirname}`);
-      console.log(`process.cwd() = ${process.cwd()}`);
+      console.log(`root path = ${path.join(process.cwd(), CHILD_SCRIPT_FILENAME)}`);
       if (!fs.existsSync(path.join(serverPath, CHILD_SCRIPT_FILENAME))) {
-        serverPath = __dirname;
-        console.log(`4 serverPath = ${serverPath}`);
+        serverPath = process.cwd()
+        if (!fs.existsSync(path.join(serverPath, CHILD_SCRIPT_FILENAME))) {
+          serverPath = __dirname;
+          console.log(`4 serverPath = ${serverPath}`);
+        }
       }
     }
   }
