@@ -8,6 +8,7 @@ const fs = require('fs');
 var fork = require('child_process').fork;
 const appSettings = require("../app-settings");
 const {app} = require('electron');
+const log = require('electron-log');
 
 const CHILD_SCRIPT_FILENAME = 'startServer.js';
 
@@ -38,15 +39,15 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
 
   // NOTE: this is so ugly FIXME
   let serverPath = path.join(app.getAppPath(), 'node_modules/downstream-electron');
-  console.log(`1 serverPath = ${serverPath}`);
+  log.info(`1 serverPath = ${serverPath}`);
   if (!fs.existsSync(path.join(serverPath, CHILD_SCRIPT_FILENAME))) {
     serverPath = path.join(app.getAppPath(), 'node_modules/downstream-electron/api/server');
-    console.log(`2 serverPath = ${serverPath}`);
+    log.info(`2 serverPath = ${serverPath}`);
     if (!fs.existsSync(path.join(serverPath, CHILD_SCRIPT_FILENAME))) {
       serverPath = app.getAppPath();
-      console.log(`3 serverPath = ${serverPath}`);
-      console.log(`__dirname = ${__dirname}`);
-      console.log(`root path = ${path.join(process.cwd(), CHILD_SCRIPT_FILENAME)}`);
+      log.info(`app.getAppPath() = ${serverPath}`);
+      log.info(`__dirname = ${__dirname}`);
+      log.info(`process.cwd() = ${process.cwd()}`);
       if (!fs.existsSync(path.join(serverPath, CHILD_SCRIPT_FILENAME))) {
         serverPath = process.cwd()
         if (!fs.existsSync(path.join(serverPath, CHILD_SCRIPT_FILENAME))) {
