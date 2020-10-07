@@ -63,8 +63,12 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
   log.info('Script for server:', script);
 
   //  FOR DEBUG PURPOSE self.childProcess = fork(script ,[],{execArgv:['--inspect=5860']});
+  log.info('fork前')
   self.childProcess = fork(script, []);
+  log.info('fork後')
+  log.info(`self.childProcess = `, self.childProcess)
   let routeName = appSettings.getSettings().downloadsName;
+  log.info('routeName = ', routeName)
 
   // send init data for http server
   let data = {
@@ -72,7 +76,10 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
     routeName: routeName,
     port: port
   };
-  self.childProcess.send(data)
+  let sendResult = self.childProcess.send(data, function (err) {
+    log.info(`send error ${err}`)
+  })
+  log.info(`send result ${sendResult}`)
 
   self.childProcess.on('error', function (err) {
     console.error(err);
@@ -88,11 +95,12 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
 
     if (data.cmd === 'listening_port') {
       // http server is listening => notify application for listen port
+      log.info('listening_port')
       callback(data.port);
     }
 
     if (data.cmd === 'get_info') {
-
+      log.info('get_info = ', data)
       let requestId = data.requestId;
       // http server asks data folder for manifest id
       let manifestId = data.args.manifest;
@@ -115,6 +123,7 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
     }
 
     if (data.cmd === 'is_downloading') {
+      log.info('is_downloading = ', data)
       let requestId = data.requestId;
       let manifestId = data.args.manifest;
       let file = data.args.file;
@@ -135,6 +144,7 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
     }
 
     if (data.cmd === 'perform_seek') {
+      log.info('perform_seek = ', data)
       let requestId = data.requestId;
       let manifestId = data.args.manifest;
       let file = data.args.file;
@@ -149,6 +159,7 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
   });
 
   self.childProcess.on('close', function (code, signal) {
+    log.info('close = ', code, signal)
     // child has closed
     if (code == null) {
       console.log('Child process closed with signal:', signal);
