@@ -67,7 +67,7 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
 
   //  FOR DEBUG PURPOSE self.childProcess = fork(script ,[],{execArgv:['--inspect=5860']});
   log.info('fork前')
-  self.childProcess = fork(script, []);
+  self.childProcess = fork(cp_path, []);
   log.info('fork後')
   log.info(`self.childProcess = `, self.childProcess)
   let routeName = appSettings.getSettings().downloadsName;
