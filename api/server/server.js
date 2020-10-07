@@ -87,6 +87,7 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
   })
   // handles message from child process
   self.childProcess.on('message', function (data) {
+    log.info('message = ', data);
     if (data.cmd === 'log') {
       // http server wants to log some data
       console.log(data.log);
