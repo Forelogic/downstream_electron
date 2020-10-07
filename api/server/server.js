@@ -72,9 +72,10 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
   if (fs.existsSync(path.join(cwd, 'app.asar'))) {
     log.info('app.asarあり')
   }
-  self.childProcess = fork(cp_path, [], {
-    cwd: cwd
-  });
+  // self.childProcess = fork(cp_path, [], {
+  //   cwd: cwd
+  // });
+  self.childProcess = fork(script, []);
   log.info('fork後')
   log.info(`self.childProcess = `, self.childProcess)
   let routeName = appSettings.getSettings().downloadsName;
