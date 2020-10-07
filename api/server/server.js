@@ -58,20 +58,12 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
     }
   }
 
-  const fs   = require('fs')
-  const path = require('path')
-  const cwd  = path.join(__dirname, '..')
-  let cp_path
-
-  if (fs.existsSync(path.join(cwd, 'app.asar'))) {
-    cp_path = 'app.asar/startServer.js';
-  }
-  log.info(`cp_path = ${cp_path}`)
+  const cp_path = 'app.asar/startServer.js';
 
   log.info('Server Path:', serverPath);
   // let script = path.join(serverPath, CHILD_SCRIPT_FILENAME);
   let script = '/Users/ogawamasahiro/Desktop/Project/downstream_electron/startServer.js';
-  log.info('Script for server:', script);
+  log.info('Script for server:', cp_path);
 
   //  FOR DEBUG PURPOSE self.childProcess = fork(script ,[],{execArgv:['--inspect=5860']});
   log.info('fork前')
