@@ -9,6 +9,7 @@ var fork = require('child_process').fork;
 const appSettings = require("../app-settings");
 const {app} = require('electron');
 const log = require('electron-log');
+const cwd = path.join(__dirname, '..')
 
 const CHILD_SCRIPT_FILENAME = 'startServer.js';
 
@@ -67,7 +68,13 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
 
   //  FOR DEBUG PURPOSE self.childProcess = fork(script ,[],{execArgv:['--inspect=5860']});
   log.info('fork前')
-  self.childProcess = fork(cp_path, []);
+  log.info(`cwd = ${cwd}`)
+  if (fs.existsSync(path.join(cwd, 'app.asar'))) {
+    log.info('app.asarあり')
+  }
+  self.childProcess = fork(cp_path, [], {
+    cwd: cwd
+  });
   log.info('fork後')
   log.info(`self.childProcess = `, self.childProcess)
   let routeName = appSettings.getSettings().downloadsName;
