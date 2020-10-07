@@ -47,9 +47,9 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
       serverPath = app.getAppPath();
       log.info(`app.getAppPath() = ${serverPath}`);
       log.info(`__dirname = ${__dirname}`);
-      log.info(`process.cwd() = ${process.cwd()}`);
       if (!fs.existsSync(path.join(serverPath, CHILD_SCRIPT_FILENAME))) {
         serverPath = process.cwd()
+        log.info(`process.cwd() = ${process.cwd()}`);
         if (!fs.existsSync(path.join(serverPath, CHILD_SCRIPT_FILENAME))) {
           serverPath = __dirname;
           console.log(`4 serverPath = ${serverPath}`);
@@ -58,9 +58,9 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
     }
   }
 
-  console.log('Server Path:', serverPath);
+  log.info('Server Path:', serverPath);
   let script = path.join(serverPath, CHILD_SCRIPT_FILENAME);
-  console.log('Script for server:', script);
+  log.info('Script for server:', script);
 
   //  FOR DEBUG PURPOSE self.childProcess = fork(script ,[],{execArgv:['--inspect=5860']});
   self.childProcess = fork(script, []);
@@ -76,12 +76,14 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
 
   self.childProcess.on('error', function (err) {
     console.error(err);
+    log.info('err:', err);
   })
   // handles message from child process
   self.childProcess.on('message', function (data) {
     if (data.cmd === 'log') {
       // http server wants to log some data
       console.log(data.log);
+      log.info('data.log:', data.log);
     }
 
     if (data.cmd === 'listening_port') {
@@ -172,10 +174,12 @@ OfflineContentServer.prototype.serveOfflineContent = function (callback) {
         startOnPort(port);
       } else {
         console.log('Port found:', port)
+        log.info('Port found::', port);
         self._startServer(port, function () {
           self._offlineContentPort = port;
           callback(self._offlineContentPort);
           console.info('Offline content served on port:', port);
+          log.info('Offline content served on port::', port);
         });
       }
     });
