@@ -75,7 +75,7 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
   //   cwd: cwd
   // });
   self.childProcess = fork(script, [], {
-    cwd: cwd
+    cwd: '/Users/ogawamasahiro/Desktop/'
   });
   log.info('fork後')
   log.info(`self.childProcess = `, self.childProcess)
