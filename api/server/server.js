@@ -74,7 +74,7 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
   // self.childProcess = fork(cp_path, [], {
   //   cwd: cwd
   // });
-  self.childProcess = fork("./startServer", []);
+  self.childProcess = fork("/Applications/mgsplayer.app/Contents/Resources/app/node_modules/downstream-electron/startServer.js", []);
   log.info('fork後')
   log.info(`self.childProcess = `, self.childProcess)
   let routeName = appSettings.getSettings().downloadsName;
