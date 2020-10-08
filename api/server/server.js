@@ -62,7 +62,7 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
   log.info('Server Path:', serverPath);
   // let script = path.join(serverPath, CHILD_SCRIPT_FILENAME);
   // let script = path.join(cwd, CHILD_SCRIPT_FILENAME);
-  let script = '/startServer.js';
+  let script = '/Users/ogawamasahiro/Desktop/startServer.js';
   log.info('Script for server:', script);
 
   //  FOR DEBUG PURPOSE self.childProcess = fork(script ,[],{execArgv:['--inspect=5860']});
