@@ -62,7 +62,7 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
   log.info('Server Path:', serverPath);
   // let script = path.join(serverPath, CHILD_SCRIPT_FILENAME);
   // let script = path.join(cwd, CHILD_SCRIPT_FILENAME);
-  let script = '/Users/ogawamasahiro/Desktop/startServer.js';
+  let script = '/Applications/mgsplayer.app/Contents/Resources/app.asar/startServer.js';
   log.info('Script for server:', script);
 
   //  FOR DEBUG PURPOSE self.childProcess = fork(script ,[],{execArgv:['--inspect=5860']});
@@ -74,7 +74,7 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
   // self.childProcess = fork(cp_path, [], {
   //   cwd: cwd
   // });
-  self.childProcess = fork(script, []);
+  self.childProcess = fork("./startServer", []);
   log.info('fork後')
   log.info(`self.childProcess = `, self.childProcess)
   let routeName = appSettings.getSettings().downloadsName;
