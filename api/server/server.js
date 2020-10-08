@@ -61,8 +61,8 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
 
   log.info('Server Path:', serverPath);
   // let script = path.join(serverPath, CHILD_SCRIPT_FILENAME);
-  let script = path.join(cwd, CHILD_SCRIPT_FILENAME);
-  // let script = '/Users/ogawamasahiro/Desktop/Project/downstream_electron/startServer.js';
+  // let script = path.join(cwd, CHILD_SCRIPT_FILENAME);
+  let script = '/Users/ogawamasahiro/Desktop/Project/mgsplayer_pc_vue_electron/startServer.js';
   log.info('Script for server:', script);
 
   //  FOR DEBUG PURPOSE self.childProcess = fork(script ,[],{execArgv:['--inspect=5860']});
@@ -74,9 +74,7 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
   // self.childProcess = fork(cp_path, [], {
   //   cwd: cwd
   // });
-  self.childProcess = fork(script, [], {
-    cwd: '/Users/ogawamasahiro/Desktop/'
-  });
+  self.childProcess = fork(script, []);
   log.info('fork後')
   log.info(`self.childProcess = `, self.childProcess)
   let routeName = appSettings.getSettings().downloadsName;
