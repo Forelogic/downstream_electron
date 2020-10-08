@@ -59,8 +59,6 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
     }
   }
 
-  const cp_path = 'app.asar/startServer.js';
-
   log.info('Server Path:', serverPath);
   // let script = path.join(serverPath, CHILD_SCRIPT_FILENAME);
   let script = path.join(cwd, CHILD_SCRIPT_FILENAME);
@@ -76,7 +74,9 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
   // self.childProcess = fork(cp_path, [], {
   //   cwd: cwd
   // });
-  self.childProcess = fork(script, []);
+  self.childProcess = fork(script, [], {
+    cwd: cwd
+  });
   log.info('fork後')
   log.info(`self.childProcess = `, self.childProcess)
   let routeName = appSettings.getSettings().downloadsName;
