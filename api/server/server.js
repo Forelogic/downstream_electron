@@ -63,7 +63,7 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
   // let script = path.join(serverPath, CHILD_SCRIPT_FILENAME);
   // let script = path.join(cwd, CHILD_SCRIPT_FILENAME);
   // let script = '/Applications/mgsplayer.app/Contents/Resources/app.asar/startServer.js';
-  let script = path.join(app.getAppPath(), 'Contents/Resources/app/node_modules/downstream-electron', CHILD_SCRIPT_FILENAME)
+  let script = path.join(app.getAppPath(), 'node_modules/downstream-electron', CHILD_SCRIPT_FILENAME)
   log.info('Script for server:', script);
 
   //  FOR DEBUG PURPOSE self.childProcess = fork(script ,[],{execArgv:['--inspect=5860']});
@@ -72,7 +72,7 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
   if (fs.existsSync(path.join(cwd, CHILD_SCRIPT_FILENAME))) {
     log.info('startServer.jsあり')
   }
-  self.childProcess = fork("/Applications/mgsplayer.app/Contents/Resources/app/node_modules/downstream-electron/startServer.js", []);
+  self.childProcess = fork(script, []);
   log.info('fork後')
   log.info(`self.childProcess = `, self.childProcess)
   let routeName = appSettings.getSettings().downloadsName;
