@@ -43,15 +43,14 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
     if (!fs.existsSync(path.join(serverPath, CHILD_SCRIPT_FILENAME))) {
       serverPath = app.getAppPath();
       if (!fs.existsSync(path.join(serverPath, CHILD_SCRIPT_FILENAME))) {
-        serverPath = process.cwd()
-        if (!fs.existsSync(path.join(serverPath, CHILD_SCRIPT_FILENAME))) {
           serverPath = __dirname;
-        }
       }
     }
   }
 
-  let script = path.join(app.getAppPath(), 'node_modules/downstream-electron', CHILD_SCRIPT_FILENAME)
+  console.log('Server Path:', serverPath);
+  let script = path.join(app.getAppPath(), 'node_modules/downstream-electron', CHILD_SCRIPT_FILENAME);
+  console.log('Script for server:', script);
 
   //  FOR DEBUG PURPOSE self.childProcess = fork(script ,[],{execArgv:['--inspect=5860']});
   self.childProcess = fork(script, []);
