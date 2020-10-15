@@ -9,6 +9,7 @@ const appSettings = require("../../app-settings");
 module.exports = function (api, onSuccess, onFailure, target, manifestUrl, customManifestId, manifestStr) {
   var useCustomId = true;
 
+  console.log(`downstream_electron customManifestId = ${customManifestId}`)
   if (typeof customManifestId === "undefined" ||
     customManifestId === "" ||
     customManifestId === null) {
@@ -19,12 +20,14 @@ module.exports = function (api, onSuccess, onFailure, target, manifestUrl, custo
     if (typeof customManifestId !== "undefined" &&
       typeof customManifestId !== "number" &&
       typeof customManifestId !== "string") {
+      console.log(`downstream_electron format error`)
       onFailure(translation.getError(translation.e.manifests.INVALID_ID, customManifestId));
       return;
     }
     const customManifestIdFolderRegex = appSettings.getSettings().customManifestIdFolderRegex;
 
     if (!customManifestId.match(customManifestIdFolderRegex)) {
+      console.log(`downstream_electron no match customManifestIdFolderRegex = ${customManifestIdFolderRegex}`)
       const invalid = getInvalidDiff(
         customManifestId,
         customManifestIdFolderRegex,
