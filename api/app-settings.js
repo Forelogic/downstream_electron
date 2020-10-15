@@ -122,7 +122,7 @@ let settings = {
   // then it may have any letter or number or unicode characters (regional characters) or space or any of the following characters
   // ,.;'[]{}!@#$%&*()-_=+
   // and is all case insensitive
-  customManifestIdFolderRegex: /^([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\-|\_){1,1}([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\ |\,|\.|\;|\'|\[|\]|\{|\}|\!|\@|\#|\$|\%|\&|\*|\(|\)|\-|\_|\=|\+?){0,49}$/i,
+  customManifestIdFolderRegex: /^([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\-|\_){1,1}([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\ |\,|\.|\;|\'|\[|\]|\{|\}|\!|\@|\#|\$|\%|\&|\*|\(|\)|\-|\_|\=|\+?){0,80}$/i,
   openingTagForInvalidCustomManifestIdCharacter: '<span style=\'background-color:blue;\'>',
   closingTagForInvalidCustomManifestIdCharacter: '</span>'
 };
