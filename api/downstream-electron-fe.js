@@ -1,4 +1,4 @@
-/*eslint no-console: ["error", { allow: ["warn", "error", "info"] }] */
+// /*eslint no-console: ["error", { allow: ["warn", "error", "info"] }] */
 'use strict';
 const WIDEVINE_SCHEME_ID_URI = 'urn:uuid:edef8ba9-79d6-4ace-a3c8-27dcd51d21ed';
 
@@ -120,22 +120,27 @@ DownstreamElectronFE.prototype.downloads.createPersistent = function (args, reso
   const config = clonePersistentConfig(args[1]);
   const forced = args[2];
   const scope = this;
+  console.log('DownstreamElectronFE.prototype.downloads.createPersistent this._persistent = ', this._persistent);
   if (this._persistent) {
     this.downloads.info(manifestId).then(function (info) {
+      console.log('DownstreamElectronFE.prototype.downloads.createPersistent info = ', info);
       if (!info) {
         reject(translation.getError(translation.e.manifests.NOT_FOUND, manifestId));
         return;
       }
       const existingPersistentSessionId = info.persistent;
+      console.log('DownstreamElectronFE.prototype.downloads.createPersistent existingPersistentSessionId = ', existingPersistentSessionId);
       if (existingPersistentSessionId && !forced) {
         reject('persistent session already exists:' + JSON.stringify(existingPersistentSessionId));
       } else {
+        console.log('DownstreamElectronFE.prototype.downloads.createPersistent config.pssh = ', config.pssh);
         if (!config.pssh) {
           config.pssh = getWidevinePSSH(info);
         }
-
+        console.log('DownstreamElectronFE.prototype.downloads.createPersistent config.pssh = ', config.pssh);
         scope._persistent.createPersistentSession(config).then(function (persistentSessionId) {
           scope.downloads.savePersistent(manifestId, persistentSessionId).then(function () {
+            console.log('DownstreamElectronFE.prototype.downloads.createPersistent existingPersistentSessionId = ', existingPersistentSessionId);
             if (existingPersistentSessionId) {
               scope._persistent.removePersistentSession(existingPersistentSessionId)
               .then(function () {
@@ -152,6 +157,7 @@ DownstreamElectronFE.prototype.downloads.createPersistent = function (args, reso
       }
     }, reject);
   } else {
+    console.log('DownstreamElectronFE.prototype.downloads.createPersistent No persistent plugin initialized');
     reject('No persistent plugin initialized');
   }
 };
