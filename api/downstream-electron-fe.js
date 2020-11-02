@@ -153,7 +153,9 @@ DownstreamElectronFE.prototype.downloads.createPersistent = function (args, reso
               resolve(persistentSessionId);
             }
           }, reject);
-        }, reject);
+        }).catch((error) => {
+          console.log('ogawa create Pasistentでエラー', error);
+        })
       }
     }, reject);
   } else {
