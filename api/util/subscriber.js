@@ -19,6 +19,7 @@ function Subscriber (process, callback, target, manifestId, time, onceOnly) {
   this._id = String(Snowflake.SnowflakeId.getUUID());
   this._onceOnly = onceOnly;
   this._target = target;
+  console.log('log')
   this.onInterval = function () {
     const result = this._process();
     const self = this;
