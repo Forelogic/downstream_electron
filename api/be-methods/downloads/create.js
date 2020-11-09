@@ -5,16 +5,19 @@ const translation = require("../../translation/index");
 const canCreateManifest = require("../../util/can-create-manifest");
 const getInvalidDiff = require("../../util/get-invalid-diff");
 const appSettings = require("../../app-settings");
+const log = require('electron-log');
 
 module.exports = function (api, onSuccess, onFailure, target, manifestUrl, customManifestId, manifestStr) {
   var useCustomId = true;
 
+  log.info('create customManifestId', customManifestId)
   if (typeof customManifestId === "undefined" ||
     customManifestId === "" ||
     customManifestId === null) {
     useCustomId = false;
   }
 
+  log.info('create useCustomId', useCustomId)
   if (useCustomId) {
     if (typeof customManifestId !== "undefined" &&
       typeof customManifestId !== "number" &&
@@ -23,6 +26,7 @@ module.exports = function (api, onSuccess, onFailure, target, manifestUrl, custo
       return;
     }
     const customManifestIdFolderRegex = appSettings.getSettings().customManifestIdFolderRegex;
+    log.info('create customManifestIdFolderRegex', customManifestIdFolderRegex)
 
     if (!customManifestId.match(customManifestIdFolderRegex)) {
       const invalid = getInvalidDiff(
@@ -37,6 +41,7 @@ module.exports = function (api, onSuccess, onFailure, target, manifestUrl, custo
 
   let manifest = new Manifest(customManifestId);
   let promise;
+  log.info('create manifestStr', manifestStr)
   if (manifestStr) {
     promise = manifest.loadWithManifest(manifestUrl, manifestStr)
   } else {
@@ -44,6 +49,7 @@ module.exports = function (api, onSuccess, onFailure, target, manifestUrl, custo
   }
 
   promise.then(() => {
+    log.info('create useCustomId', useCustomId)
     if (useCustomId) {
       canCreateManifest(customManifestId).then(function () {
         api.manifestController.cacheManifest(manifest);
@@ -56,6 +62,7 @@ module.exports = function (api, onSuccess, onFailure, target, manifestUrl, custo
       onSuccess(manifest.getJsonInfo());
     }
   }, (err) => {
+    log.info('create err', err)
     onFailure(translation.getError(translation.e.manifests.LOADING_FAILED, manifestUrl), err);
   });
 };
