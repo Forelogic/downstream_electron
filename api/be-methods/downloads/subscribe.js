@@ -64,14 +64,12 @@ function subscribeSingle (api, onSuccess, onFailure, target, manifestId, timeout
       return api.downloadsController.downloadStats.getStats(manifestId);
     }, api.processSubscriber, target, manifestId, timeout);
     subscribersId.push(api.subscribersController.addSubscriber(subscriber1));
-    log.info('subscriber1', subscriber1)
     log.info('subscribersID.push before 1', subscribersId)
 
     // callbackOnFinish
     subscriber2 = new Subscriber(function () {
       return api.downloadsController.isDownloadFinishedAndSynced(manifestId);
     }, api.processSubscriber, target, manifestId, timeout, true);
-    log.info('subscriber2', subscriber2)
 
     subscriber2.onFinish(function (callback) {
       log.info('subscriber2 onFinish', callback)

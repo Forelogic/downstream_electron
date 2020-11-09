@@ -48,7 +48,7 @@ function Subscriber (process, callback, target, manifestId, time, onceOnly) {
  * @returns {string} - subscriber identifier
  */
 Subscriber.prototype.getId = function () {
-  log.info('getId');
+  log.info('getId', this._id);
   return this._id;
 };
 
@@ -67,7 +67,7 @@ Subscriber.prototype.getManifestId = function () {
  * @returns {void}
  */
 Subscriber.prototype.onFinish = function (callback) {
-  log.info('onFinish');
+  log.info('onFinish', callback);
   this._callbackOnFinish = callback;
 };
 

@@ -17,6 +17,7 @@ const path = require("path");
 const ReadItem = require("../downloads/read-item");
 const FlushItem = require("../downloads/flush-item");
 const downloadFileUtil = require("../downloads/download-file-util");
+const log = require('electron-log');
 
 /**
  *
@@ -144,6 +145,7 @@ DownloadsController.prototype._downloadOrderManifestExists = function (manifestI
  * @private
  */
 DownloadsController.prototype._downloadOrderRemoveManifest = function (manifestId) {
+  log.info('DownloadsController.prototype._downloadOrderRemoveManifest');
   let found = false, i, j;
   delete this._manifestsDownloadOrderObj[manifestId];
   for (i = 0, j = this._manifestsDownloadOrder.length; i < j; i++) {
@@ -165,6 +167,7 @@ DownloadsController.prototype._downloadOrderRemoveManifest = function (manifestI
  * @returns {void}
  */
 DownloadsController.prototype._finish = function (manifestId, onSuccess, onFailure) {
+  log.info('DownloadsController.prototype._finish');
   this.downloadStats.refresh();
   this._downloadOrderRemoveManifest(manifestId);
   if (!this._manifestsDownloadOrder.length) {
@@ -191,6 +194,7 @@ DownloadsController.prototype._getDownloadHash = function (link) {
  * @returns {void}
  */
 DownloadsController.prototype._markDownloadItem = function (download) {
+  log.info('DownloadsController.prototype._markDownloadItem');
   const self = this;
   const manifestId = download.manifestId;
   const downloadHash = self._getDownloadHash(download);
@@ -251,6 +255,7 @@ DownloadsController.prototype._markDownloadItem = function (download) {
  * @returns {void}
  */
 DownloadsController.prototype._stopWithStatus = function (manifestId, onSuccess, onFailure, status, statusDetails) {
+  log.info('DownloadsController.prototype._stopWithStatus');
   const self = this;
   self._downloadOrderRemoveManifest(manifestId);
   self.storage.getItem(manifestId)
@@ -391,6 +396,7 @@ DownloadsController.prototype.getDownloading = function (manifestId, localFile) 
 }
 
 DownloadsController.prototype.waitForDownload = function (download, callback) {
+  log.info('DownloadsController.prototype.waitForDownload')
   let _onDownloadEnd;
   let _onDownloadError;
 
@@ -476,6 +482,7 @@ DownloadsController.prototype.performSeek = function (manifestId, localFile, cal
  * @returns {void}
  */
 DownloadsController.prototype.start = function (manifestId, representations, downloadFolder, onSuccess, onFailure, fromResumed, oldstatus) {
+  log.info('DownloadsController.prototype.start')
   const self = this;
   this.downloadStats.start();
   const manifest = this._manifestController.getManifestById(manifestId);
@@ -741,6 +748,7 @@ DownloadsController.prototype.stopPromise = function (manifestId, ignoreStopped)
  * @returns {Promise} - promise
  */
 DownloadsController.prototype.removePromise = function (manifestId) {
+  log.info('DownloadsController.prototype.removePromise')
   const self = this;
   return new Promise(function (resolve, reject) {
     self.stopPromise(manifestId)
@@ -789,6 +797,7 @@ DownloadsController.prototype._addLinkToDownload = function (manifestId, link) {
  * @returns {void}
  */
 DownloadsController.prototype.startQueue = function (nextManifestPositionInArray, forceDownload) {
+  log.info('DownloadsController.prototype.startQueue')
   let count, downloadsInProgress, link, manifestId, maxDownloads;
   if (typeof nextManifestPositionInArray === "undefined") {
     nextManifestPositionInArray = 0;
