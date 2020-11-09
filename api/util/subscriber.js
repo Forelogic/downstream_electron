@@ -1,6 +1,7 @@
 "use strict";
 const Snowflake = require("./snowflake-id");
 const _ = require("underscore");
+const log = require('electron-log');
 
 /**
  *
@@ -13,7 +14,7 @@ const _ = require("underscore");
  * @constructor
  */
 function Subscriber (process, callback, target, manifestId, time, onceOnly) {
-  console.log('Subscriber')
+  log.info('Subscriber')
   this._process = process;
   this._callback = callback;
   this._manifestId = manifestId;
@@ -47,7 +48,7 @@ function Subscriber (process, callback, target, manifestId, time, onceOnly) {
  * @returns {string} - subscriber identifier
  */
 Subscriber.prototype.getId = function () {
-  console.log('getId')
+  log.info('getId')
   return this._id;
 };
 
@@ -56,7 +57,7 @@ Subscriber.prototype.getId = function () {
  * @returns {string} - manifest identifier
  */
 Subscriber.prototype.getManifestId = function () {
-  console.log('getManifestId')
+  log.info('getManifestId')
   return this._manifestId;
 };
 
@@ -66,7 +67,7 @@ Subscriber.prototype.getManifestId = function () {
  * @returns {void}
  */
 Subscriber.prototype.onFinish = function (callback) {
-  console.log('onFinish')
+  log.info('onFinish')
   this._callbackOnFinish = callback;
 };
 
@@ -74,7 +75,7 @@ Subscriber.prototype.onFinish = function (callback) {
  * @returns {void}
  */
 Subscriber.prototype.remove = function () {
-  console.log('remove')
+  log.info('remove')
   clearInterval(this._intervalTimer);
 };
 
