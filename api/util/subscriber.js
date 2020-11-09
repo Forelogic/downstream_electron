@@ -13,6 +13,7 @@ const _ = require("underscore");
  * @constructor
  */
 function Subscriber (process, callback, target, manifestId, time, onceOnly) {
+  console.log('Subscriber')
   this._process = process;
   this._callback = callback;
   this._manifestId = manifestId;
@@ -46,6 +47,7 @@ function Subscriber (process, callback, target, manifestId, time, onceOnly) {
  * @returns {string} - subscriber identifier
  */
 Subscriber.prototype.getId = function () {
+  console.log('getId')
   return this._id;
 };
 
@@ -54,6 +56,7 @@ Subscriber.prototype.getId = function () {
  * @returns {string} - manifest identifier
  */
 Subscriber.prototype.getManifestId = function () {
+  console.log('getManifestId')
   return this._manifestId;
 };
 
@@ -63,6 +66,7 @@ Subscriber.prototype.getManifestId = function () {
  * @returns {void}
  */
 Subscriber.prototype.onFinish = function (callback) {
+  console.log('onFinish')
   this._callbackOnFinish = callback;
 };
 
@@ -70,6 +74,7 @@ Subscriber.prototype.onFinish = function (callback) {
  * @returns {void}
  */
 Subscriber.prototype.remove = function () {
+  console.log('remove')
   clearInterval(this._intervalTimer);
 };
 
