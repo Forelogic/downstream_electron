@@ -13,7 +13,7 @@ module.exports = function (api, onSuccess, onFailure, target, manifestIds, timeo
 };
 
 function subscribeMany (api, onSuccess, onFailure, target, manifestIds, timeout) {
-  log.info('subscribeMany')
+  log.info('subscribeMany');
   let subscriber1, subscriber2, subscribersId;
   const manifestId = manifestIds.sort().join(',');
 
@@ -23,6 +23,7 @@ function subscribeMany (api, onSuccess, onFailure, target, manifestIds, timeout)
     return api.downloadsController.downloadStats.getStats(manifestIds);
   }, api.processSubscriber, target, manifestId, timeout);
   subscribersId.push(api.subscribersController.addSubscriber(subscriber1));
+  log.info('subscribersId', subscribersId);
 
   // callbackOnFinish
   subscriber2 = new Subscriber(function () {
@@ -34,7 +35,6 @@ function subscribeMany (api, onSuccess, onFailure, target, manifestIds, timeout)
   }, api.processSubscriber, target, manifestId, timeout, true);
 
   subscriber2.onFinish(function (callback) {
-    log.info('subscriber2.onFinish')
     subscriber1.remove();
     let items = [];
     for (let i = 0, j = manifestIds.length; i < j; i++) {
@@ -52,7 +52,8 @@ function subscribeMany (api, onSuccess, onFailure, target, manifestIds, timeout)
 }
 
 function subscribeSingle (api, onSuccess, onFailure, target, manifestId, timeout) {
-  log.info('subscribeSingle')
+  log.info('subscribeSingle');
+  log.info('manifestId', manifestId);
   const manifest = api.manifestController.getManifestById(manifestId);
   let subscriber1, subscriber2, subscribersId;
   if (manifest) {
@@ -63,19 +64,24 @@ function subscribeSingle (api, onSuccess, onFailure, target, manifestId, timeout
       return api.downloadsController.downloadStats.getStats(manifestId);
     }, api.processSubscriber, target, manifestId, timeout);
     subscribersId.push(api.subscribersController.addSubscriber(subscriber1));
+    log.info('subscriber1', subscriber1)
+    log.info('subscribersID.push before 1', subscribersId)
 
     // callbackOnFinish
     subscriber2 = new Subscriber(function () {
       return api.downloadsController.isDownloadFinishedAndSynced(manifestId);
     }, api.processSubscriber, target, manifestId, timeout, true);
+    log.info('subscriber2', subscriber2)
 
     subscriber2.onFinish(function (callback) {
+      log.info('subscriber2 onFinish', callback)
       subscriber1.remove();
       api.offlineController.getManifestInfo(manifestId, function (err, result) {
         callback(err, result);
       });
     });
     subscribersId.push(api.subscribersController.addSubscriber(subscriber2));
+    log.info('subscribersID.push before 2', subscribersId)
 
     onSuccess(manifest.getJsonInfo(), subscribersId);
   } else {

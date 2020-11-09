@@ -1,4 +1,6 @@
 "use strict";
+const log = require('electron-log');
+
 /**
  *
  * @constructor
@@ -54,6 +56,7 @@ SubscribersController.prototype.removeAllManifestSubscribersById = function (sub
  * @returns {void}
  */
 SubscribersController.prototype.unsubscribe = function (manifestIds) {
+  log.info('unsubscribe', manifestIds)
   let subscribersId = [];
   let manifestIdsHash = {};
   if (typeof manifestIds === "string") {
@@ -72,6 +75,7 @@ SubscribersController.prototype.unsubscribe = function (manifestIds) {
     }
   }
 
+  log.info('removeSubscribersById', subscribersId)
   this.removeSubscribersById(subscribersId);
 };
 
