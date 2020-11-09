@@ -145,7 +145,7 @@ DownloadsController.prototype._downloadOrderManifestExists = function (manifestI
  * @private
  */
 DownloadsController.prototype._downloadOrderRemoveManifest = function (manifestId) {
-  log.info('DownloadsController.prototype._downloadOrderRemoveManifest');
+  log.info('DownloadsController.prototype._downloadOrderRemoveManifest', manifestId);
   let found = false, i, j;
   delete this._manifestsDownloadOrderObj[manifestId];
   for (i = 0, j = this._manifestsDownloadOrder.length; i < j; i++) {
@@ -194,7 +194,7 @@ DownloadsController.prototype._getDownloadHash = function (link) {
  * @returns {void}
  */
 DownloadsController.prototype._markDownloadItem = function (download) {
-  log.info('DownloadsController.prototype._markDownloadItem');
+  log.info('DownloadsController.prototype._markDownloadItem', download.stats);
   const self = this;
   const manifestId = download.manifestId;
   const downloadHash = self._getDownloadHash(download);
@@ -206,6 +206,7 @@ DownloadsController.prototype._markDownloadItem = function (download) {
 
   //refreshing stats for last time - to have correct stats for subscribers progress before it is removed
   if (self.storage.downloading.count(manifestId) === 1 && self.storage.left.count(manifestId) === 0) {
+    log.info('_markDownloadItem refresh')
     this.downloadStats.refresh();
     lastItem = true;
   }
@@ -216,6 +217,7 @@ DownloadsController.prototype._markDownloadItem = function (download) {
   } else {
     self.storage.errors.push(manifestId, download);
   }
+  log.info('_markDownloadItem downloading', self.storage.downloading)
   self.storage.downloading.removeItem(manifestId, downloadHash);
 
   if (self.isDownloadFinished(manifestId)) {
@@ -230,6 +232,7 @@ DownloadsController.prototype._markDownloadItem = function (download) {
   self.storage.sync(manifestId, syncStorageKeys)
     .then(function () {
       self.storage.params.decrease(manifestId, self._names.downloadInProgress);
+      log.info('_markDownloadItem lastItem')
       if (lastItem) {
         self._finish(manifestId, function () {
           self.startQueue();
@@ -241,6 +244,7 @@ DownloadsController.prototype._markDownloadItem = function (download) {
         self.startQueue();
       }
     }, function (err) {
+      log.info('_markDownloadItem ERROR')
       console.error("ERROR", err);
     });
 };
@@ -322,6 +326,7 @@ DownloadsController.prototype._onDownloadError = function (download, err) {
  */
 DownloadsController.prototype._onDownloadEnd = function (download) {
   // console.log("FINISHED", download.remoteUrl, download.localUrl);
+  log.info('_onDownloadEnd');
   this._markDownloadItem(download);
 };
 
@@ -716,6 +721,7 @@ DownloadsController.prototype.updateDownloadFolder = function (manifestId, downl
  * @returns {void}
  */
 DownloadsController.prototype.stop = function (manifestId, onSuccess, onFailure) {
+  log.info('DownloadsController.prototype.stop')
   this._stopWithStatus(manifestId, onSuccess, onFailure, STATUSES.STOPPED)
 };
 
@@ -726,6 +732,7 @@ DownloadsController.prototype.stop = function (manifestId, onSuccess, onFailure)
  * @returns {Promise} - promise
  */
 DownloadsController.prototype.stopPromise = function (manifestId, ignoreStopped) {
+  log.info('DownloadsController.prototype.stopPromise')
   const self = this;
   return new Promise(function (resolve, reject) {
     self.stop(manifestId, resolve, function (err) {
@@ -825,6 +832,7 @@ DownloadsController.prototype.startQueue = function (nextManifestPositionInArray
       count += this.storage.params.count(items[i], this._names.downloadInProgress);
     }
     if (count === 0) {
+      log.info('startQueue stop()')
       this.downloadStats.stop();
     }
     return;
