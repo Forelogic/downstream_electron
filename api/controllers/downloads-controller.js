@@ -194,7 +194,7 @@ DownloadsController.prototype._getDownloadHash = function (link) {
  * @returns {void}
  */
 DownloadsController.prototype._markDownloadItem = function (download) {
-  log.info('DownloadsController.prototype._markDownloadItem', download.stats);
+  log.info('DownloadsController.prototype._markDownloadItem');
   const self = this;
   const manifestId = download.manifestId;
   const downloadHash = self._getDownloadHash(download);
@@ -217,7 +217,6 @@ DownloadsController.prototype._markDownloadItem = function (download) {
   } else {
     self.storage.errors.push(manifestId, download);
   }
-  log.info('_markDownloadItem downloading', self.storage.downloading)
   self.storage.downloading.removeItem(manifestId, downloadHash);
 
   if (self.isDownloadFinished(manifestId)) {

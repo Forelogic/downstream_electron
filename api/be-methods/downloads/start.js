@@ -2,6 +2,7 @@
 
 const translation = require("../../translation/index");
 const canCreateManifest = require("../../util/can-create-manifest");
+const log = require('electron-log');
 
 module.exports = function (api, onSuccess, onFailure, target, manifestId, representations, downloadFolder) {
   const manifest = api.manifestController.getManifestById(manifestId);
@@ -11,15 +12,19 @@ module.exports = function (api, onSuccess, onFailure, target, manifestId, repres
   }
 
   function start () {
+    log.info('start')
     api.downloadsController.storage.getItem(manifestId).then(function (result) {
       if (result) {
+        log.info('start result')
         onFailure(translation.getError(translation.e.downloads.ALREADY_STARTED, manifestId));
       } else {
+        log.info('!start result')
         api.downloadsController.start(manifestId, representations, downloadFolder, onSuccess, function (err) {
           onFailure(translation.getError(translation.e.downloads._GENERAL), err);
         });
       }
     }, function (err) {
+      log.info('start err')
       onFailure(translation.getError(translation.e.downloads._GENERAL), err);
     });
   }

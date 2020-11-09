@@ -64,7 +64,6 @@ function subscribeSingle (api, onSuccess, onFailure, target, manifestId, timeout
       return api.downloadsController.downloadStats.getStats(manifestId);
     }, api.processSubscriber, target, manifestId, timeout);
     subscribersId.push(api.subscribersController.addSubscriber(subscriber1));
-    log.info('subscribersID.push before 1', subscribersId)
 
     // callbackOnFinish
     subscriber2 = new Subscriber(function () {
@@ -72,14 +71,12 @@ function subscribeSingle (api, onSuccess, onFailure, target, manifestId, timeout
     }, api.processSubscriber, target, manifestId, timeout, true);
 
     subscriber2.onFinish(function (callback) {
-      log.info('subscriber2 onFinish', callback)
       subscriber1.remove();
       api.offlineController.getManifestInfo(manifestId, function (err, result) {
         callback(err, result);
       });
     });
     subscribersId.push(api.subscribersController.addSubscriber(subscriber2));
-    log.info('subscribersID.push before 2', subscribersId)
 
     onSuccess(manifest.getJsonInfo(), subscribersId);
   } else {
