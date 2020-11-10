@@ -55,6 +55,8 @@ module.exports = function (api, onSuccess, onFailure, target, manifestUrl, custo
         api.manifestController.cacheManifest(manifest);
         onSuccess(manifest.getJsonInfo());
       }, function (err) {
+        log.info('create canCreateManifest', err)
+        log.info('create customManifestId', customManifestId)
         onFailure(translation.getError(translation.e.manifests.FOLDER_ALREADY_EXISTS, customManifestId), err);
       });
     } else {
@@ -63,6 +65,7 @@ module.exports = function (api, onSuccess, onFailure, target, manifestUrl, custo
     }
   }, (err) => {
     log.info('create err', err)
+    log.info('create manifestUrl', manifestUrl)
     onFailure(translation.getError(translation.e.manifests.LOADING_FAILED, manifestUrl), err);
   });
 };
