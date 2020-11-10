@@ -367,6 +367,8 @@ DownloadsController.prototype._prepareStartOptions = function (manifestId, video
  * @returns {boolean} - if download is finished
  */
 DownloadsController.prototype.isDownloadFinished = function (manifestId) {
+  log.info('isDOwnloadFInished storage', this.storage)
+  log.info('isDOwnloadFInished manifestId', manifestId)
   return !this.storage.left.count(manifestId) && !this.storage.downloading.count(manifestId);
 };
 
@@ -552,7 +554,10 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
       const info = results[0];
       const storageItem = results[1];
       log.info('start storageItem && !self.isDownloadFinished(manifestId)', storageItem && !self.isDownloadFinished(manifestId))
+      log.info('start storageItem', storageItem)
+      log.info('start self.isDownloadFinished(manifestId)', self.isDownloadFinished(manifestId))
       if (storageItem && !self.isDownloadFinished(manifestId)) {
+        log.info('fromResumed', fromResumed)
         if (fromResumed) {
           onFailure(translation.getError(translation.e.downloads.ALREADY_RESUMED, manifestId));
         } else {
