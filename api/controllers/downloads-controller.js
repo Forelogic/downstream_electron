@@ -550,14 +550,18 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
       const info = results[0];
       const storageItem = results[1];
       log.info('start storageItem && !self.isDownloadFinished(manifestId)', storageItem && !self.isDownloadFinished(manifestId))
-      if (storageItem && !self.isDownloadFinished(manifestId)) {
-        log.info('fromResumed', fromResumed)
-        if (fromResumed) {
-          onFailure(translation.getError(translation.e.downloads.ALREADY_RESUMED, manifestId));
-        } else {
-          onFailure(translation.getError(translation.e.downloads.ALREADY_STARTED, manifestId));
+      log.info('storageItem', storageItem)
+      log.info('storageItem._items', storageItem._items)
+      if (storageItem._items.status._items.status !== 'QUEUED') {
+        if (storageItem && !self.isDownloadFinished(manifestId)) {
+          log.info('fromResumed', fromResumed)
+          if (fromResumed) {
+            onFailure(translation.getError(translation.e.downloads.ALREADY_RESUMED, manifestId));
+          } else {
+            onFailure(translation.getError(translation.e.downloads.ALREADY_STARTED, manifestId));
+          }
+          return;
         }
-        return;
       }
 
       //collect Links - start
