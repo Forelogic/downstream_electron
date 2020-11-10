@@ -2,7 +2,6 @@
 
 const translation = require('../../translation/index');
 const Subscriber = require("../../util/subscriber");
-const log = require('electron-log');
 
 module.exports = function (api, onSuccess, onFailure, target, manifestIds, timeout) {
   if (typeof manifestIds === 'string') {
@@ -13,7 +12,6 @@ module.exports = function (api, onSuccess, onFailure, target, manifestIds, timeo
 };
 
 function subscribeMany (api, onSuccess, onFailure, target, manifestIds, timeout) {
-  log.info('subscribeMany');
   let subscriber1, subscriber2, subscribersId;
   const manifestId = manifestIds.sort().join(',');
 
@@ -23,7 +21,6 @@ function subscribeMany (api, onSuccess, onFailure, target, manifestIds, timeout)
     return api.downloadsController.downloadStats.getStats(manifestIds);
   }, api.processSubscriber, target, manifestId, timeout);
   subscribersId.push(api.subscribersController.addSubscriber(subscriber1));
-  log.info('subscribersId', subscribersId);
 
   // callbackOnFinish
   subscriber2 = new Subscriber(function () {
@@ -52,8 +49,6 @@ function subscribeMany (api, onSuccess, onFailure, target, manifestIds, timeout)
 }
 
 function subscribeSingle (api, onSuccess, onFailure, target, manifestId, timeout) {
-  log.info('subscribeSingle');
-  log.info('manifestId', manifestId);
   const manifest = api.manifestController.getManifestById(manifestId);
   let subscriber1, subscriber2, subscribersId;
   if (manifest) {

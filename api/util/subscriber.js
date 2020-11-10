@@ -14,7 +14,6 @@ const log = require('electron-log');
  * @constructor
  */
 function Subscriber (process, callback, target, manifestId, time, onceOnly) {
-  console.log('Subscriber');
   this._process = process;
   this._callback = callback;
   this._manifestId = manifestId;
@@ -48,7 +47,6 @@ function Subscriber (process, callback, target, manifestId, time, onceOnly) {
  * @returns {string} - subscriber identifier
  */
 Subscriber.prototype.getId = function () {
-  log.info('getId', this._id);
   return this._id;
 };
 
@@ -57,7 +55,6 @@ Subscriber.prototype.getId = function () {
  * @returns {string} - manifest identifier
  */
 Subscriber.prototype.getManifestId = function () {
-  log.info('getManifestId', this._manifestId);
   return this._manifestId;
 };
 
@@ -74,7 +71,6 @@ Subscriber.prototype.onFinish = function (callback) {
  * @returns {void}
  */
 Subscriber.prototype.remove = function () {
-  log.info('remove');
   clearInterval(this._intervalTimer);
 };
 

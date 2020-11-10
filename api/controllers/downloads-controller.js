@@ -206,7 +206,6 @@ DownloadsController.prototype._markDownloadItem = function (download) {
 
   //refreshing stats for last time - to have correct stats for subscribers progress before it is removed
   if (self.storage.downloading.count(manifestId) === 1 && self.storage.left.count(manifestId) === 0) {
-    log.info('_markDownloadItem refresh')
     this.downloadStats.refresh();
     lastItem = true;
   }
@@ -231,7 +230,6 @@ DownloadsController.prototype._markDownloadItem = function (download) {
   self.storage.sync(manifestId, syncStorageKeys)
     .then(function () {
       self.storage.params.decrease(manifestId, self._names.downloadInProgress);
-      log.info('_markDownloadItem lastItem')
       if (lastItem) {
         self._finish(manifestId, function () {
           self.startQueue();
@@ -243,7 +241,6 @@ DownloadsController.prototype._markDownloadItem = function (download) {
         self.startQueue();
       }
     }, function (err) {
-      log.info('_markDownloadItem ERROR')
       console.error("ERROR", err);
     });
 };
@@ -367,8 +364,7 @@ DownloadsController.prototype._prepareStartOptions = function (manifestId, video
  * @returns {boolean} - if download is finished
  */
 DownloadsController.prototype.isDownloadFinished = function (manifestId) {
-  log.info('isDOwnloadFInished storage', this.storage)
-  log.info('isDOwnloadFInished manifestId', manifestId)
+  log.info('isDownloadFinished', !this.storage.left.count(manifestId) && !this.storage.downloading.count(manifestId))
   return !this.storage.left.count(manifestId) && !this.storage.downloading.count(manifestId);
 };
 
@@ -554,8 +550,6 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
       const info = results[0];
       const storageItem = results[1];
       log.info('start storageItem && !self.isDownloadFinished(manifestId)', storageItem && !self.isDownloadFinished(manifestId))
-      log.info('start storageItem', storageItem)
-      log.info('start self.isDownloadFinished(manifestId)', self.isDownloadFinished(manifestId))
       if (storageItem && !self.isDownloadFinished(manifestId)) {
         log.info('fromResumed', fromResumed)
         if (fromResumed) {
