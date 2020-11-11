@@ -131,7 +131,6 @@ Manifest.prototype.loadWithManifest = function (url, manifest) {
     this.manifestXML.removeNode();
   };
   Manifest.prototype.getJsonInfo = function () {
-    log.info('manifest getJsonInfo');
     let json = {};
     json.id = this.id;
     json.audio = jsonRepresentation(this.getAudioRepresentations());

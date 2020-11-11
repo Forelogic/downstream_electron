@@ -44,7 +44,7 @@ SubscribersController.prototype.removeSubscribersById = function (subscribersId)
  * @returns {void}
  */
 SubscribersController.prototype.removeAllManifestSubscribersById = function (subscriberId) {
-  log.info('removeAllManifestSubscribersById')
+  // log.info('removeAllManifestSubscribersById')
   let subscriber = subscriberId && this._subscribers[subscriberId];
   if (subscriber) {
     this.unsubscribe(subscriber.getManifestId());
@@ -57,7 +57,7 @@ SubscribersController.prototype.removeAllManifestSubscribersById = function (sub
  * @returns {void}
  */
 SubscribersController.prototype.unsubscribe = function (manifestIds) {
-  log.info('unsubscribe', manifestIds)
+  // log.info('unsubscribe', manifestIds)
   let subscribersId = [];
   let manifestIdsHash = {};
   if (typeof manifestIds === "string") {

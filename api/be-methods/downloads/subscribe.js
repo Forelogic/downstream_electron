@@ -5,7 +5,7 @@ const Subscriber = require("../../util/subscriber");
 const log = require('electron-log')
 
 module.exports = function (api, onSuccess, onFailure, target, manifestIds, timeout) {
-  log.info('subscribe typeof manifestIds === \'string\'', typeof manifestIds === 'string')
+  // info('subscribe typeof manifestIds === \'string\'', typeof manifestIds === 'string')
   if (typeof manifestIds === 'string') {
     subscribeSingle(api, onSuccess, onFailure, target, manifestIds, timeout);
   } else {
@@ -51,7 +51,7 @@ function subscribeMany (api, onSuccess, onFailure, target, manifestIds, timeout)
 }
 
 function subscribeSingle (api, onSuccess, onFailure, target, manifestId, timeout) {
-  log.info('subscribeSingle')
+  // log.info('subscribeSingle')
   const manifest = api.manifestController.getManifestById(manifestId);
   let subscriber1, subscriber2, subscribersId;
   if (manifest) {
@@ -69,7 +69,7 @@ function subscribeSingle (api, onSuccess, onFailure, target, manifestId, timeout
     }, api.processSubscriber, target, manifestId, timeout, true);
 
     subscriber2.onFinish(function (callback) {
-      log.info('subscribeSingle onFinish')
+      // log.info('subscribeSingle onFinish')
       subscriber1.remove();
       // 成功パターンの場合、複数回呼ばれている場合がある
       api.offlineController.getManifestInfo(manifestId, function (err, result) {

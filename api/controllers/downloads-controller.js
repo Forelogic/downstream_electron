@@ -115,7 +115,7 @@ DownloadsController.prototype._downloadOrderAddManifest = function (manifestId, 
  * @private
  */
 DownloadsController.prototype._downloadOrderGetManifestId = function (nextManifestPositionInArray) {
-  log.info('_downloadOrderGetManifestId _manifestsDownloadOrder', this._manifestsDownloadOrder)
+  // log.info('_downloadOrderGetManifestId _manifestsDownloadOrder', this._manifestsDownloadOrder)
   return this._manifestsDownloadOrder[nextManifestPositionInArray];
 };
 
@@ -152,7 +152,7 @@ DownloadsController.prototype._downloadOrderRemoveManifest = function (manifestI
     if (this._manifestsDownloadOrder[i] === manifestId) {
       this._manifestsDownloadOrder.splice(i, 1);
       found = true;
-      log.info('_downloadOrderRemoveManifest _manifestsDownloadOrder', this._manifestsDownloadOrder)
+      // log.info('_downloadOrderRemoveManifest _manifestsDownloadOrder', this._manifestsDownloadOrder)
       break;
     }
   }
@@ -168,7 +168,7 @@ DownloadsController.prototype._downloadOrderRemoveManifest = function (manifestI
  * @returns {void}
  */
 DownloadsController.prototype._finish = function (manifestId, onSuccess, onFailure) {
-  log.info('DownloadsController.prototype._finish');
+  // log.info('DownloadsController.prototype._finish');
   this.downloadStats.refresh();
   this._downloadOrderRemoveManifest(manifestId);
   if (!this._manifestsDownloadOrder.length) {
@@ -371,10 +371,10 @@ DownloadsController.prototype.isDownloadFinished = function (manifestId) {
  * @returns {boolean} - if download is finished and synced (info written on disk)
  */
 DownloadsController.prototype.isDownloadFinishedAndSynced = function (manifestId) {
-  log.info('isDownloadFinishedAndSynced')
-  log.info('this.storage.left.count(manifestId)', this.storage.left.count(manifestId))
-  log.info('this.storage.downloading.count(manifestId)', this.storage.downloading.count(manifestId))
-  log.info('this.storage.keyExists(manifestId)', this.storage.keyExists(manifestId))
+  // log.info('isDownloadFinishedAndSynced')
+  // log.info('this.storage.left.count(manifestId)', this.storage.left.count(manifestId))
+  // log.info('this.storage.downloading.count(manifestId)', this.storage.downloading.count(manifestId))
+  // log.info('this.storage.keyExists(manifestId)', this.storage.keyExists(manifestId))
   return !this.storage.left.count(manifestId) && !this.storage.downloading.count(manifestId) && !this.storage.keyExists(manifestId);
 };
 

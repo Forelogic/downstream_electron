@@ -256,7 +256,7 @@ DownstreamElectronBE.prototype.getOfflinePath = function (manifestId) {
  * @returns {void}
  */
 DownstreamElectronBE.prototype.processSubscriber = function (subscriberId, err, result, target, subscriberFinished) {
-  log.info('processSubscriber');
+  // log.info('processSubscriber');
   let response = {};
   response.subscriberId = subscriberId;
   response.status = err ? "ERROR" : "OK";
@@ -264,7 +264,7 @@ DownstreamElectronBE.prototype.processSubscriber = function (subscriberId, err, 
   response.result = result;
   response.subscriberFinished = subscriberFinished;
   this._send(response, target);
-  log.info('subscriberFinished', subscriberFinished)
+  // log.info('subscriberFinished', subscriberFinished)
   if (subscriberFinished) {
     this.subscribersController.removeAllManifestSubscribersById(subscriberId);
   }
