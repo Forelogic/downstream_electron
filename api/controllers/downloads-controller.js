@@ -777,6 +777,7 @@ DownloadsController.prototype.removePromise = function (manifestId) {
  * @returns {void}
  */
 DownloadsController.prototype._addLinkToDownload = function (manifestId, link) {
+  log.info('_addLinkToDownload')
   const self = this;
   const params = Object.assign({}, link);
   const download = new Download(params, self.storage.params.getItem(manifestId, self._names.options));
@@ -806,6 +807,7 @@ DownloadsController.prototype.startQueue = function (nextManifestPositionInArray
   }
 
   manifestId = this._downloadOrderGetManifestId(nextManifestPositionInArray);
+  log.info('manifestId', manifestId)
   if (manifestId && this.isDownloadFinished(manifestId)) {
     // the manifest id will be removed from queue, wait next time. Thus, do not change status
     log.info('startQueue return1')
@@ -839,8 +841,10 @@ DownloadsController.prototype.startQueue = function (nextManifestPositionInArray
   }
   downloadsInProgress = this.storage.params.getItem(manifestId, this._names.downloadInProgress);
   maxDownloads = this.storage.params.getItem(manifestId, this._names.maxDownloadInProgress);
+  log.info('(downloadsInProgress < maxDownloads - 1) || forceDownload', (downloadsInProgress < maxDownloads - 1) || forceDownload)
   if ((downloadsInProgress < maxDownloads - 1) || forceDownload) {
     link = this.storage.left.shift(manifestId);
+    log.info('link', link)
     if (link) {
       this.storage.params.increase(manifestId, this._names.downloadInProgress);
       this._addLinkToDownload(manifestId, link);
@@ -848,9 +852,11 @@ DownloadsController.prototype.startQueue = function (nextManifestPositionInArray
       //check next manifest
       nextManifestPositionInArray++;
     }
+    log.info('true next start queue')
     this.startQueue(nextManifestPositionInArray);
   } else if (appSettings.getSettings().numberOfManifestsInParallel > 1 && nextManifestPositionInArray < appSettings.getSettings().numberOfManifestsInParallel) {
     nextManifestPositionInArray++;
+    log.info('false next start queue')
     this.startQueue(nextManifestPositionInArray);
   }
 };

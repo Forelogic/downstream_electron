@@ -8,6 +8,7 @@ const mkdirp = require("mkdirp");
 const appSettings = require("../app-settings");
 const EventEmitter = require("events").EventEmitter;
 const STATUSES = require("./statuses");
+const log = require("electron-log");
 
 
 /**
@@ -177,11 +178,13 @@ Download.prototype._updateStats = function () {
  * @returns {void}
  */
 Download.prototype.start = function () {
+  log.info('download start')
   const self = this;
   this.status = STATUSES.STARTED;
   this._createLocalPath(function (err) {
     if (err) {
       self._onError(err);
+      log.info('download start return')
       return;
     }
     // NOTE: domain module is marked to be deprecated in the future,
@@ -204,6 +207,7 @@ Download.prototype.start = function () {
     d.run(function () {
       self._dl = self.createDownloader(self.remoteUrl, self.localUrl, self._options);
       self._attachEvents();
+      log.info('download start start()')
       self._dl.start();
     });
   });
