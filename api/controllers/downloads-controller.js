@@ -811,7 +811,10 @@ DownloadsController.prototype.startQueue = function (nextManifestPositionInArray
     log.info('startQueue return1')
     return;
   }
+  log.info('nextManifestPositionInArray', nextManifestPositionInArray);
+  log.info('appSettings.getSettings().numberOfManifestsInParallel', appSettings.getSettings().numberOfManifestsInParallel);
   if (nextManifestPositionInArray >= appSettings.getSettings().numberOfManifestsInParallel) {
+    log.info('manifestId', manifestId)
     if (manifestId) {
       this.storage.status.setItem(manifestId, "status", STATUSES.QUEUED);
     }
