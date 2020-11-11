@@ -69,13 +69,14 @@ function subscribeSingle (api, onSuccess, onFailure, target, manifestId, timeout
 
     subscriber2.onFinish(function (callback) {
       log.info('subscribeSingle onFinish')
-      log.info('subscribeSingle onFinish callback', callback)
       subscriber1.remove();
+      // 成功パターンの場合、複数回呼ばれている場合がある
       api.offlineController.getManifestInfo(manifestId, function (err, result) {
         callback(err, result);
       });
     });
     subscribersId.push(api.subscribersController.addSubscriber(subscriber2));
+    log.info('subscribeSingle subscriberId', subscribersId)
 
     onSuccess(manifest.getJsonInfo(), subscribersId);
   } else {

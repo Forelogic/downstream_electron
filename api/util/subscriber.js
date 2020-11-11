@@ -32,6 +32,7 @@ function Subscriber (process, callback, target, manifestId, time, onceOnly) {
         if (typeof this._callbackOnFinish === "function") {
           this._callbackOnFinish(function (err, result) {
             self._callback(self._id, err, result, self._target, true);
+            log.info('subscriber _callbackOnFinish')
           });
         } else {
           this._callback(this._id, null, result, self._target);

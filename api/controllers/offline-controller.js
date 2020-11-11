@@ -84,11 +84,12 @@ OfflineController.prototype.getManifestInfo = function (manifestId, callback, fu
     const manifestLocalUrl = path.resolve(appSettings.getSettings().settingsFolder + "/" + manifestId + "/" + manifestName);
 
     let manifest = self._manifestController.getManifestById(manifestId);
-    log.info('offline-controller manifest', manifest)
     if (manifest) {
+      log.info('offline-controller manifest true')
       info.manifestInfo = manifest.getJsonInfo();
       callback(null, info);
     } else {
+      log.info('offline-controller manifest false')
       manifest = new Manifest(manifestId);
       manifest.loadFromLocal(manifestLocalUrl, manifestUrl).then(function () {
         self._manifestController.cacheManifest(manifest);
