@@ -5,6 +5,7 @@ const Subscriber = require("../../util/subscriber");
 const log = require('electron-log')
 
 module.exports = function (api, onSuccess, onFailure, target, manifestIds, timeout) {
+  log.info('subscribe typeof manifestIds === \'string\'', typeof manifestIds === 'string')
   if (typeof manifestIds === 'string') {
     subscribeSingle(api, onSuccess, onFailure, target, manifestIds, timeout);
   } else {
@@ -76,7 +77,6 @@ function subscribeSingle (api, onSuccess, onFailure, target, manifestId, timeout
       });
     });
     subscribersId.push(api.subscribersController.addSubscriber(subscriber2));
-    log.info('subscribeSingle subscriberId', subscribersId)
 
     onSuccess(manifest.getJsonInfo(), subscribersId);
   } else {

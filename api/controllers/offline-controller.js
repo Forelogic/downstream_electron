@@ -76,6 +76,7 @@ OfflineController.prototype.getManifestsListWithInfo = function (callback, full)
  * @returns {void}
  */
 OfflineController.prototype.getManifestInfo = function (manifestId, callback, full) {
+  log.info('offline-controller getManifestInfo')
   const self = this;
 
   function addManifestInfoAndContinue (info) {

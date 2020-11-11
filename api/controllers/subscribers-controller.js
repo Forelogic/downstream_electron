@@ -76,7 +76,6 @@ SubscribersController.prototype.unsubscribe = function (manifestIds) {
     }
   }
 
-  log.info('removeSubscribersById', subscribersId)
   this.removeSubscribersById(subscribersId);
 };
 

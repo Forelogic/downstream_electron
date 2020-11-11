@@ -10,6 +10,7 @@ const jsonRepresentationWithProtection = require("../parser/json-representation-
 const manifestLoader = new ManifestLoader.ManifestLoader();
 const urlParse = require("url-parse");
 const encoding = require("../../util/encoding");
+const log = require('electron-log');
 
 const Manifest = (function () {
   function Manifest (id) {
@@ -130,12 +131,14 @@ Manifest.prototype.loadWithManifest = function (url, manifest) {
     this.manifestXML.removeNode();
   };
   Manifest.prototype.getJsonInfo = function () {
+    log.info('manifest getJsonInfo');
     let json = {};
     json.id = this.id;
     json.audio = jsonRepresentation(this.getAudioRepresentations());
     json.video = jsonRepresentation(this.getVideoRepresentations());
     json.text = jsonRepresentation(this.getTextRepresentations());
     json.protections = this.getProtections();
+    log.info('manifest json', json)
     return json;
   };
   return Manifest;
