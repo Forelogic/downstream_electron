@@ -145,7 +145,6 @@ DownloadsController.prototype._downloadOrderManifestExists = function (manifestI
  * @private
  */
 DownloadsController.prototype._downloadOrderRemoveManifest = function (manifestId) {
-  log.info('DownloadsController.prototype._downloadOrderRemoveManifest', manifestId);
   let found = false, i, j;
   delete this._manifestsDownloadOrderObj[manifestId];
   for (i = 0, j = this._manifestsDownloadOrder.length; i < j; i++) {
@@ -194,7 +193,6 @@ DownloadsController.prototype._getDownloadHash = function (link) {
  * @returns {void}
  */
 DownloadsController.prototype._markDownloadItem = function (download) {
-  log.info('DownloadsController.prototype._markDownloadItem');
   const self = this;
   const manifestId = download.manifestId;
   const downloadHash = self._getDownloadHash(download);
@@ -255,7 +253,6 @@ DownloadsController.prototype._markDownloadItem = function (download) {
  * @returns {void}
  */
 DownloadsController.prototype._stopWithStatus = function (manifestId, onSuccess, onFailure, status, statusDetails) {
-  log.info('DownloadsController.prototype._stopWithStatus');
   const self = this;
   self._downloadOrderRemoveManifest(manifestId);
   self.storage.getItem(manifestId)
@@ -322,7 +319,6 @@ DownloadsController.prototype._onDownloadError = function (download, err) {
  */
 DownloadsController.prototype._onDownloadEnd = function (download) {
   // console.log("FINISHED", download.remoteUrl, download.localUrl);
-  log.info('_onDownloadEnd');
   this._markDownloadItem(download);
 };
 
@@ -364,7 +360,6 @@ DownloadsController.prototype._prepareStartOptions = function (manifestId, video
  * @returns {boolean} - if download is finished
  */
 DownloadsController.prototype.isDownloadFinished = function (manifestId) {
-  log.info('isDownloadFinished', !this.storage.left.count(manifestId) && !this.storage.downloading.count(manifestId))
   return !this.storage.left.count(manifestId) && !this.storage.downloading.count(manifestId);
 };
 
@@ -374,6 +369,10 @@ DownloadsController.prototype.isDownloadFinished = function (manifestId) {
  * @returns {boolean} - if download is finished and synced (info written on disk)
  */
 DownloadsController.prototype.isDownloadFinishedAndSynced = function (manifestId) {
+  log.info('isDownloadFinishedAndSynced')
+  log.info('this.storage.left.count(manifestId)', this.storage.left.count(manifestId))
+  log.info('this.storage.downloading.count(manifestId)', this.storage.downloading.count(manifestId))
+  log.info('this.storage.keyExists(manifestId)', this.storage.keyExists(manifestId))
   return !this.storage.left.count(manifestId) && !this.storage.downloading.count(manifestId) && !this.storage.keyExists(manifestId);
 };
 
@@ -398,7 +397,6 @@ DownloadsController.prototype.getDownloading = function (manifestId, localFile) 
 }
 
 DownloadsController.prototype.waitForDownload = function (download, callback) {
-  log.info('DownloadsController.prototype.waitForDownload')
   let _onDownloadEnd;
   let _onDownloadError;
 
@@ -484,11 +482,9 @@ DownloadsController.prototype.performSeek = function (manifestId, localFile, cal
  * @returns {void}
  */
 DownloadsController.prototype.start = function (manifestId, representations, downloadFolder, onSuccess, onFailure, fromResumed, oldstatus) {
-  log.info('DownloadsController.prototype.start')
   const self = this;
   this.downloadStats.start();
   const manifest = this._manifestController.getManifestById(manifestId);
-  log.info('start !manifest', !manifest)
   if (!manifest) {
     onFailure(translation.getError(translation.e.manifests.NOT_FOUND, manifestId));
     return;
@@ -549,11 +545,7 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
     .then(function (results) {
       const info = results[0];
       const storageItem = results[1];
-      log.info('start storageItem && !self.isDownloadFinished(manifestId)', storageItem && !self.isDownloadFinished(manifestId))
-      log.info('storageItem', storageItem)
-      // if (storageItem._items.status._items.status !== 'QUEUED') {}
       if (storageItem && !self.isDownloadFinished(manifestId)) {
-        log.info('fromResumed', fromResumed)
         if (fromResumed) {
           onFailure(translation.getError(translation.e.downloads.ALREADY_RESUMED, manifestId));
         } else {
@@ -642,14 +634,12 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
               ])
                 .then(function () {
                   self.downloadStats.refresh();
-                  log.info('start self.isDownloadFinished(manifestId)', self.isDownloadFinished(manifestId))
                   if (self.isDownloadFinished(manifestId)) {
                     self.storage.status.setItem(manifestId, "status", STATUSES.FINISHED);
                     self.storage.sync(manifestId, self.storage.stores.STATUS)
                       .then(function () {
                         self._finish(manifestId, onSuccess, onFailure);
                       }, function onError () {
-                        log.info('err 1')
                       });
                   } else {
                     self.downloadStats.start();
@@ -657,13 +647,10 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
                     onSuccess();
                   }
                 }, function onError () {
-                  log.info('err 2')
                 });
             }, function onError () {
-              log.info('err 3')
             });
         }, function onError () {
-          log.info('err 4')
         });
     });
 };
@@ -679,17 +666,14 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
 DownloadsController.prototype.resume = function (manifestId, representations, onSuccess, onFailure) {
   const self = this;
   this._offlineController.getManifestInfo(manifestId, function (err, info) {
-    log.info('resume err', err)
     if (err) {
       onFailure(translation.getError(translation.e.downloads.RESUMING_FAILED, manifestId), err);
     } else {
       let folder = info.manifest.folder;
-      log.info('resume folder', folder)
       if (!folder) {
         // use default download folder path
         folder = path.resolve(appSettings.getSettings().downloadsFolderPath)
       }
-      log.info('resume folder before', folder)
       self.start(manifestId, representations, folder, onSuccess, onFailure, true, info.status);
     }
   });
@@ -735,7 +719,6 @@ DownloadsController.prototype.updateDownloadFolder = function (manifestId, downl
  * @returns {void}
  */
 DownloadsController.prototype.stop = function (manifestId, onSuccess, onFailure) {
-  log.info('DownloadsController.prototype.stop')
   this._stopWithStatus(manifestId, onSuccess, onFailure, STATUSES.STOPPED)
 };
 
@@ -746,7 +729,6 @@ DownloadsController.prototype.stop = function (manifestId, onSuccess, onFailure)
  * @returns {Promise} - promise
  */
 DownloadsController.prototype.stopPromise = function (manifestId, ignoreStopped) {
-  log.info('DownloadsController.prototype.stopPromise')
   const self = this;
   return new Promise(function (resolve, reject) {
     self.stop(manifestId, resolve, function (err) {
@@ -769,7 +751,6 @@ DownloadsController.prototype.stopPromise = function (manifestId, ignoreStopped)
  * @returns {Promise} - promise
  */
 DownloadsController.prototype.removePromise = function (manifestId) {
-  log.info('DownloadsController.prototype.removePromise')
   const self = this;
   return new Promise(function (resolve, reject) {
     self.stopPromise(manifestId)
@@ -818,7 +799,6 @@ DownloadsController.prototype._addLinkToDownload = function (manifestId, link) {
  * @returns {void}
  */
 DownloadsController.prototype.startQueue = function (nextManifestPositionInArray, forceDownload) {
-  log.info('DownloadsController.prototype.startQueue')
   let count, downloadsInProgress, link, manifestId, maxDownloads;
   if (typeof nextManifestPositionInArray === "undefined") {
     nextManifestPositionInArray = 0;
@@ -846,7 +826,6 @@ DownloadsController.prototype.startQueue = function (nextManifestPositionInArray
       count += this.storage.params.count(items[i], this._names.downloadInProgress);
     }
     if (count === 0) {
-      log.info('startQueue stop()')
       this.downloadStats.stop();
     }
     return;

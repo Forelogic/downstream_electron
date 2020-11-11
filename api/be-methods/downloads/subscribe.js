@@ -2,6 +2,7 @@
 
 const translation = require('../../translation/index');
 const Subscriber = require("../../util/subscriber");
+const log = require('electron-log')
 
 module.exports = function (api, onSuccess, onFailure, target, manifestIds, timeout) {
   if (typeof manifestIds === 'string') {
@@ -49,6 +50,7 @@ function subscribeMany (api, onSuccess, onFailure, target, manifestIds, timeout)
 }
 
 function subscribeSingle (api, onSuccess, onFailure, target, manifestId, timeout) {
+  log.info('subscribeSingle')
   const manifest = api.manifestController.getManifestById(manifestId);
   let subscriber1, subscriber2, subscribersId;
   if (manifest) {
@@ -66,6 +68,7 @@ function subscribeSingle (api, onSuccess, onFailure, target, manifestId, timeout
     }, api.processSubscriber, target, manifestId, timeout, true);
 
     subscriber2.onFinish(function (callback) {
+      log.info('subscribeSingle onFinish')
       subscriber1.remove();
       api.offlineController.getManifestInfo(manifestId, function (err, result) {
         callback(err, result);

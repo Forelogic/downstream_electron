@@ -10,6 +10,7 @@ const ManifestController = require('./controllers/manifest-controller');
 const OfflineController = require('./controllers/offline-controller');
 const SubscribersController = require('./controllers/subscribers-controller');
 const Server = require('./server/server.js');
+const log = require('electron-log');
 
 let DownstreamElectronBE;
 
@@ -255,12 +256,14 @@ DownstreamElectronBE.prototype.getOfflinePath = function (manifestId) {
  * @returns {void}
  */
 DownstreamElectronBE.prototype.processSubscriber = function (subscriberId, err, result, target, subscriberFinished) {
+  log.info('processSubscriber');
   let response = {};
   response.subscriberId = subscriberId;
   response.status = err ? "ERROR" : "OK";
   response.err = err;
   response.result = result;
   response.subscriberFinished = subscriberFinished;
+  log.info('processSubscriber response', response);
   this._send(response, target);
   if (subscriberFinished) {
     this.subscribersController.removeAllManifestSubscribersById(subscriberId);

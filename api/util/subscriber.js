@@ -64,6 +64,7 @@ Subscriber.prototype.getManifestId = function () {
  * @returns {void}
  */
 Subscriber.prototype.onFinish = function (callback) {
+  log.info('onFinish')
   this._callbackOnFinish = callback;
 };
 
