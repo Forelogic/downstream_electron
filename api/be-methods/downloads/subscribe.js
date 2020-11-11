@@ -69,6 +69,7 @@ function subscribeSingle (api, onSuccess, onFailure, target, manifestId, timeout
 
     subscriber2.onFinish(function (callback) {
       log.info('subscribeSingle onFinish')
+      log.info('subscribeSingle onFinish callback', callback)
       subscriber1.remove();
       api.offlineController.getManifestInfo(manifestId, function (err, result) {
         callback(err, result);

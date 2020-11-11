@@ -44,6 +44,7 @@ SubscribersController.prototype.removeSubscribersById = function (subscribersId)
  * @returns {void}
  */
 SubscribersController.prototype.removeAllManifestSubscribersById = function (subscriberId) {
+  log.info('removeAllManifestSubscribersById')
   let subscriber = subscriberId && this._subscribers[subscriberId];
   if (subscriber) {
     this.unsubscribe(subscriber.getManifestId());

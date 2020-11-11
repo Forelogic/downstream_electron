@@ -263,8 +263,8 @@ DownstreamElectronBE.prototype.processSubscriber = function (subscriberId, err, 
   response.err = err;
   response.result = result;
   response.subscriberFinished = subscriberFinished;
-  log.info('processSubscriber response', response);
   this._send(response, target);
+  log.info('subscriberFinished', subscriberFinished)
   if (subscriberFinished) {
     this.subscribersController.removeAllManifestSubscribersById(subscriberId);
   }

@@ -8,6 +8,7 @@ const ReadItem = require("../downloads/read-item");
 const dirList = require("../util/dir-list");
 const Manifest = require("../manifest/loader/manifest").Manifest;
 const STATUSES = require("../downloads/statuses");
+const log = require('electron-log');
 
 /**
  *
@@ -83,6 +84,7 @@ OfflineController.prototype.getManifestInfo = function (manifestId, callback, fu
     const manifestLocalUrl = path.resolve(appSettings.getSettings().settingsFolder + "/" + manifestId + "/" + manifestName);
 
     let manifest = self._manifestController.getManifestById(manifestId);
+    log.info('offline-controller manifest', manifest)
     if (manifest) {
       info.manifestInfo = manifest.getJsonInfo();
       callback(null, info);
@@ -93,6 +95,7 @@ OfflineController.prototype.getManifestInfo = function (manifestId, callback, fu
         info.manifestInfo = manifest.getJsonInfo();
         callback(null, info);
       }, function (err) {
+        log.info('offline-controller err && err.code === "ENOENT"', err && err.code === "ENOENT")
         if (err && err.code === "ENOENT") {
           callback();
         } else {
