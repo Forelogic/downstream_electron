@@ -115,6 +115,7 @@ DownloadsController.prototype._downloadOrderAddManifest = function (manifestId, 
  * @private
  */
 DownloadsController.prototype._downloadOrderGetManifestId = function (nextManifestPositionInArray) {
+  log.info('_downloadOrderGetManifestId _manifestsDownloadOrder', this._manifestsDownloadOrder)
   return this._manifestsDownloadOrder[nextManifestPositionInArray];
 };
 
@@ -151,6 +152,7 @@ DownloadsController.prototype._downloadOrderRemoveManifest = function (manifestI
     if (this._manifestsDownloadOrder[i] === manifestId) {
       this._manifestsDownloadOrder.splice(i, 1);
       found = true;
+      log.info('_downloadOrderRemoveManifest _manifestsDownloadOrder', this._manifestsDownloadOrder)
       break;
     }
   }
