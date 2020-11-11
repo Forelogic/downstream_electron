@@ -138,7 +138,6 @@ Manifest.prototype.loadWithManifest = function (url, manifest) {
     json.video = jsonRepresentation(this.getVideoRepresentations());
     json.text = jsonRepresentation(this.getTextRepresentations());
     json.protections = this.getProtections();
-    log.info('manifest json', json)
     return json;
   };
   return Manifest;
