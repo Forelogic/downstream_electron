@@ -799,6 +799,7 @@ DownloadsController.prototype._addLinkToDownload = function (manifestId, link) {
  * @returns {void}
  */
 DownloadsController.prototype.startQueue = function (nextManifestPositionInArray, forceDownload) {
+  log.info('startQueue')
   let count, downloadsInProgress, link, manifestId, maxDownloads;
   if (typeof nextManifestPositionInArray === "undefined") {
     nextManifestPositionInArray = 0;
@@ -807,12 +808,14 @@ DownloadsController.prototype.startQueue = function (nextManifestPositionInArray
   manifestId = this._downloadOrderGetManifestId(nextManifestPositionInArray);
   if (manifestId && this.isDownloadFinished(manifestId)) {
     // the manifest id will be removed from queue, wait next time. Thus, do not change status
+    log.info('startQueue return1')
     return;
   }
   if (nextManifestPositionInArray >= appSettings.getSettings().numberOfManifestsInParallel) {
     if (manifestId) {
       this.storage.status.setItem(manifestId, "status", STATUSES.QUEUED);
     }
+    log.info('startQueue return2')
     return;
   } else {
     this.storage.status.setItem(manifestId, "status", STATUSES.STARTED);
@@ -828,6 +831,7 @@ DownloadsController.prototype.startQueue = function (nextManifestPositionInArray
     if (count === 0) {
       this.downloadStats.stop();
     }
+    log.info('startQueue return3')
     return;
   }
   downloadsInProgress = this.storage.params.getItem(manifestId, this._names.downloadInProgress);
