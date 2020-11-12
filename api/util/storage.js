@@ -1,4 +1,5 @@
 "use strict";
+const log = require('electron-log');
 
 /**
  *
@@ -29,8 +30,10 @@ Storage.prototype.count = function () {
 Storage.prototype.decrease = function (id) {
   if (typeof this._items[id] !== "number") {
     this._items[id] = 0;
+    log.info('decrease this._items[id]1', this._items[id])
   }
   this._items[id]--;
+  log.info('decrease this._items[id]2', this._items[id])
 };
 
 /**
@@ -62,8 +65,10 @@ Storage.prototype.getKeys = function () {
 Storage.prototype.increase = function (id) {
   if (typeof this._items[id] !== "number") {
     this._items[id] = 0;
+    log.info('decrease this._items[id]1', this._items[id])
   }
   this._items[id]++;
+  log.info('decrease this._items[id]2', this._items[id])
 };
 
 /**

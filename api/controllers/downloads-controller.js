@@ -848,7 +848,7 @@ DownloadsController.prototype.startQueue = function (nextManifestPositionInArray
       this.storage.params.increase(manifestId, this._names.downloadInProgress);
       this._addLinkToDownload(manifestId, link);
     } else {
-      log.info('link false')
+      log.info('link false"')
       //check next manifest
       nextManifestPositionInArray++;
     }
