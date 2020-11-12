@@ -115,7 +115,7 @@ DownloadsController.prototype._downloadOrderAddManifest = function (manifestId, 
  * @private
  */
 DownloadsController.prototype._downloadOrderGetManifestId = function (nextManifestPositionInArray) {
-  // log.info('_downloadOrderGetManifestId _manifestsDownloadOrder', this._manifestsDownloadOrder)
+  log.info('_downloadOrderGetManifestId this._manifestsDownloadOrder', this._manifestsDownloadOrder)
   return this._manifestsDownloadOrder[nextManifestPositionInArray];
 };
 
@@ -152,7 +152,6 @@ DownloadsController.prototype._downloadOrderRemoveManifest = function (manifestI
     if (this._manifestsDownloadOrder[i] === manifestId) {
       this._manifestsDownloadOrder.splice(i, 1);
       found = true;
-      // log.info('_downloadOrderRemoveManifest _manifestsDownloadOrder', this._manifestsDownloadOrder)
       break;
     }
   }
@@ -168,7 +167,6 @@ DownloadsController.prototype._downloadOrderRemoveManifest = function (manifestI
  * @returns {void}
  */
 DownloadsController.prototype._finish = function (manifestId, onSuccess, onFailure) {
-  // log.info('DownloadsController.prototype._finish');
   this.downloadStats.refresh();
   this._downloadOrderRemoveManifest(manifestId);
   if (!this._manifestsDownloadOrder.length) {
@@ -371,10 +369,6 @@ DownloadsController.prototype.isDownloadFinished = function (manifestId) {
  * @returns {boolean} - if download is finished and synced (info written on disk)
  */
 DownloadsController.prototype.isDownloadFinishedAndSynced = function (manifestId) {
-  // log.info('isDownloadFinishedAndSynced')
-  // log.info('this.storage.left.count(manifestId)', this.storage.left.count(manifestId))
-  // log.info('this.storage.downloading.count(manifestId)', this.storage.downloading.count(manifestId))
-  // log.info('this.storage.keyExists(manifestId)', this.storage.keyExists(manifestId))
   return !this.storage.left.count(manifestId) && !this.storage.downloading.count(manifestId) && !this.storage.keyExists(manifestId);
 };
 
@@ -817,6 +811,7 @@ DownloadsController.prototype.startQueue = function (nextManifestPositionInArray
   }
   log.info('nextManifestPositionInArray', nextManifestPositionInArray);
   log.info('appSettings.getSettings().numberOfManifestsInParallel', appSettings.getSettings().numberOfManifestsInParallel);
+  // 指定された配列が並行して処理ができるマニフェスト？の数以上であれば後続の処理を行う
   if (nextManifestPositionInArray >= appSettings.getSettings().numberOfManifestsInParallel) {
     log.info('manifestId', manifestId)
     if (manifestId) {
@@ -827,7 +822,6 @@ DownloadsController.prototype.startQueue = function (nextManifestPositionInArray
   } else {
     this.storage.status.setItem(manifestId, "status", STATUSES.STARTED);
   }
-
   if (!manifestId) {
     count = 0;
     let i, j, items;
@@ -843,14 +837,18 @@ DownloadsController.prototype.startQueue = function (nextManifestPositionInArray
   }
   downloadsInProgress = this.storage.params.getItem(manifestId, this._names.downloadInProgress);
   maxDownloads = this.storage.params.getItem(manifestId, this._names.maxDownloadInProgress);
+  log.info('downloadsInProgress', downloadsInProgress)
+  log.info('maxDownloads', maxDownloads)
   log.info('(downloadsInProgress < maxDownloads - 1) || forceDownload', (downloadsInProgress < maxDownloads - 1) || forceDownload)
+  // 5、10、15、30-1が進行中のダウンロードより大きい場合
   if ((downloadsInProgress < maxDownloads - 1) || forceDownload) {
     link = this.storage.left.shift(manifestId);
-    log.info('link', link)
     if (link) {
+      log.info('link true')
       this.storage.params.increase(manifestId, this._names.downloadInProgress);
       this._addLinkToDownload(manifestId, link);
     } else {
+      log.info('link false')
       //check next manifest
       nextManifestPositionInArray++;
     }

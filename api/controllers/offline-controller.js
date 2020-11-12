@@ -76,7 +76,6 @@ OfflineController.prototype.getManifestsListWithInfo = function (callback, full)
  * @returns {void}
  */
 OfflineController.prototype.getManifestInfo = function (manifestId, callback, full) {
-  // log.info('offline-controller getManifestInfo')
   const self = this;
 
   function addManifestInfoAndContinue (info) {
@@ -86,18 +85,15 @@ OfflineController.prototype.getManifestInfo = function (manifestId, callback, fu
 
     let manifest = self._manifestController.getManifestById(manifestId);
     if (manifest) {
-      // log.info('offline-controller manifest true')
       info.manifestInfo = manifest.getJsonInfo();
       callback(null, info);
     } else {
-      // log.info('offline-controller manifest false')
       manifest = new Manifest(manifestId);
       manifest.loadFromLocal(manifestLocalUrl, manifestUrl).then(function () {
         self._manifestController.cacheManifest(manifest);
         info.manifestInfo = manifest.getJsonInfo();
         callback(null, info);
       }, function (err) {
-        // log.info('offline-controller err && err.code === "ENOENT"', err && err.code === "ENOENT")
         if (err && err.code === "ENOENT") {
           callback();
         } else {

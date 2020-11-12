@@ -51,7 +51,6 @@ function subscribeMany (api, onSuccess, onFailure, target, manifestIds, timeout)
 }
 
 function subscribeSingle (api, onSuccess, onFailure, target, manifestId, timeout) {
-  // log.info('subscribeSingle')
   const manifest = api.manifestController.getManifestById(manifestId);
   let subscriber1, subscriber2, subscribersId;
   if (manifest) {
@@ -69,7 +68,6 @@ function subscribeSingle (api, onSuccess, onFailure, target, manifestId, timeout
     }, api.processSubscriber, target, manifestId, timeout, true);
 
     subscriber2.onFinish(function (callback) {
-      // log.info('subscribeSingle onFinish')
       subscriber1.remove();
       // 成功パターンの場合、複数回呼ばれている場合がある
       api.offlineController.getManifestInfo(manifestId, function (err, result) {

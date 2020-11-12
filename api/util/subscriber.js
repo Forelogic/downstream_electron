@@ -23,16 +23,12 @@ function Subscriber (process, callback, target, manifestId, time, onceOnly) {
   this.onInterval = function () {
     const result = this._process();
     const self = this;
-    // log.info('subscriber result', result)
     if (result) {
-      // log.info('subscriber this._onceOnly', this._onceOnly)
       if (this._onceOnly) {
         this.remove();
-        // log.info('subscriber typeof this._callbackOnFinish === "function"', typeof this._callbackOnFinish === "function")
         if (typeof this._callbackOnFinish === "function") {
           this._callbackOnFinish(function (err, result) {
             self._callback(self._id, err, result, self._target, true);
-            // log.info('subscriber _callbackOnFinish')
           });
         } else {
           this._callback(this._id, null, result, self._target);
@@ -68,7 +64,6 @@ Subscriber.prototype.getManifestId = function () {
  * @returns {void}
  */
 Subscriber.prototype.onFinish = function (callback) {
-  // log.info('subscriber onFinish')
   this._callbackOnFinish = callback;
 };
 
@@ -76,7 +71,6 @@ Subscriber.prototype.onFinish = function (callback) {
  * @returns {void}
  */
 Subscriber.prototype.remove = function () {
-  // log.info('subscriber remove')
   clearInterval(this._intervalTimer);
 };
 
