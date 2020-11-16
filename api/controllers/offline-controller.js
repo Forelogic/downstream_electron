@@ -62,6 +62,7 @@ OfflineController.prototype.getManifestsListWithInfo = function (callback, full)
         }
         callback(null, newResults);
       }, function (err) {
+        console.log('err : err = ', err)
         callback(err);
       });
     }
