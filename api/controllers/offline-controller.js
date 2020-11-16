@@ -45,6 +45,7 @@ OfflineController.prototype.getManifestsList = function (callback) {
 OfflineController.prototype.getManifestsListWithInfo = function (callback, full) {
   const self = this;
   this.getManifestsList(function (err, list) {
+    console.log('getManifestsList : err = ', err)
     if (err) {
       callback(err);
     } else {
