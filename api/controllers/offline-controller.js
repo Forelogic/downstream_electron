@@ -53,6 +53,7 @@ OfflineController.prototype.getManifestsListWithInfo = function (callback, full)
       for (let i = 0, j = list.length; i < j; i++) {
         infoP.push(self.getManifestInfoPromise(list[i], full))
       }
+      console.log('infoP = ', infoP)
       Promise.all(infoP).then(function (results) {
         let newResults = [];
         for (let i = 0, j = results.length; i < j; i++) {
@@ -85,16 +86,24 @@ OfflineController.prototype.getManifestInfo = function (manifestId, callback, fu
     const manifestLocalUrl = path.resolve(appSettings.getSettings().settingsFolder + "/" + manifestId + "/" + manifestName);
 
     let manifest = self._manifestController.getManifestById(manifestId);
+    console.log('manifest = ', manifest)
+    console.log('manifestName = ', manifestName)
+    console.log('manifestUrl = ', manifestUrl)
+    console.log('manifestLocalUrl = ', manifestLocalUrl)
     if (manifest) {
       info.manifestInfo = manifest.getJsonInfo();
+      console.log('info.manifestInfo = ', info.manifestInfo)
       callback(null, info);
     } else {
       manifest = new Manifest(manifestId);
+      console.log('manifest = ', manifest)
       manifest.loadFromLocal(manifestLocalUrl, manifestUrl).then(function () {
+        console.log('loadFromLocal success')
         self._manifestController.cacheManifest(manifest);
         info.manifestInfo = manifest.getJsonInfo();
         callback(null, info);
       }, function (err) {
+        console.log('loadFromLocal error ', err)
         if (err && err.code === "ENOENT") {
           callback();
         } else {
@@ -188,6 +197,8 @@ OfflineController.prototype.getManifestInfoPromise = function (manifestId, full)
   const self = this;
   return new Promise(function (resolve, reject) {
     self.getManifestInfo(manifestId, function (err, result) {
+      console.log('getManifestInfo :err ', err)
+      console.log('getManifestInfo :result ', result)
       if (err) {
         reject(err)
       } else {
