@@ -121,6 +121,7 @@ OfflineController.prototype.getManifestInfo = function (manifestId, callback, fu
     new ReadItem(manifestId, appSettings.getSettings().stores.DATA),
   ]).then(function (results) {
     let info = {};
+    console.log('offline-controller results ', results)
     const manifestSettings = results[0] || {};
 
     const downloaded = results[1] || [];
