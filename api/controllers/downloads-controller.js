@@ -594,6 +594,7 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
 
           self.storage.downloaded.clear(manifestId);
           self.storage.downloaded.concat(manifestId, downloaded);
+          log.info('storage.errors.clear() : ', manifestId)
           self.storage.errors.clear(manifestId);
 
           if (!fromResumed) {
