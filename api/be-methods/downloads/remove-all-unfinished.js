@@ -17,6 +17,7 @@ module.exports = function (api, onSuccess, onFailure) {
         let status = results[i].status;
         let manifestId = results[i].manifestInfo.id;
         if (status !== STATUSES.FINISHED) {
+            console.log('remove-all')
           manifestIds.push(manifestId);
           promises.push(api.downloadsController.removePromise(manifestId))
         }

@@ -719,6 +719,7 @@ DownloadsController.prototype.stop = function (manifestId, onSuccess, onFailure)
  * @returns {Promise} - promise
  */
 DownloadsController.prototype.stopPromise = function (manifestId, ignoreStopped) {
+  console.log('stopPromise', manifestId)
   const self = this;
   return new Promise(function (resolve, reject) {
     self.stop(manifestId, resolve, function (err) {
@@ -741,6 +742,7 @@ DownloadsController.prototype.stopPromise = function (manifestId, ignoreStopped)
  * @returns {Promise} - promise
  */
 DownloadsController.prototype.removePromise = function (manifestId) {
+  console.log('removePromise', manifestId)
   const self = this;
   return new Promise(function (resolve, reject) {
     self.stopPromise(manifestId)
