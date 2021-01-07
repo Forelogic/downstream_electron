@@ -2,6 +2,7 @@
 
 const translation = require('../../translation/index');
 const STATUSES = require("../../downloads/statuses");
+const log = require('electron-log');
 
 module.exports = function (api, onSuccess, onFailure) {
   api.offlineController.getManifestsListWithInfo(function (err, results) {
@@ -14,7 +15,7 @@ module.exports = function (api, onSuccess, onFailure) {
         let status = results[i].status;
         let manifestId = results[i].manifestInfo.id;
         if (status !== STATUSES.FINISHED) {
-          console.log('stop-all')
+          log.info('stop-all')
           manifestIds.push(manifestId);
           promises.push(api.downloadsController.stopPromise(manifestId, true));
         }

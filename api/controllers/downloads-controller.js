@@ -17,6 +17,7 @@ const path = require("path");
 const ReadItem = require("../downloads/read-item");
 const FlushItem = require("../downloads/flush-item");
 const downloadFileUtil = require("../downloads/download-file-util");
+const log = require('electron-log');
 
 /**
  *
@@ -719,7 +720,7 @@ DownloadsController.prototype.stop = function (manifestId, onSuccess, onFailure)
  * @returns {Promise} - promise
  */
 DownloadsController.prototype.stopPromise = function (manifestId, ignoreStopped) {
-  console.log('stopPromise', manifestId)
+  log.info('stopPromise', manifestId)
   const self = this;
   return new Promise(function (resolve, reject) {
     self.stop(manifestId, resolve, function (err) {
@@ -742,7 +743,7 @@ DownloadsController.prototype.stopPromise = function (manifestId, ignoreStopped)
  * @returns {Promise} - promise
  */
 DownloadsController.prototype.removePromise = function (manifestId) {
-  console.log('removePromise', manifestId)
+  log.info('removePromise', manifestId)
   const self = this;
   return new Promise(function (resolve, reject) {
     self.stopPromise(manifestId)
