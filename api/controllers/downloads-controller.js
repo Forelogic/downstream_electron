@@ -211,6 +211,7 @@ DownloadsController.prototype._markDownloadItem = function (download) {
     self.storage.downloaded.push(manifestId, download);
     syncStorageKeys.push(this.storage.stores.DOWNLOADS.DOWNLOADED);
   } else {
+    log.info('downloads-controller _markDownloadItem')
     self.storage.errors.push(manifestId, download);
   }
   self.storage.downloading.removeItem(manifestId, downloadHash);

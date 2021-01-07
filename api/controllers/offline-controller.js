@@ -8,6 +8,7 @@ const ReadItem = require("../downloads/read-item");
 const dirList = require("../util/dir-list");
 const Manifest = require("../manifest/loader/manifest").Manifest;
 const STATUSES = require("../downloads/statuses");
+const log = require('electron-log');
 
 /**
  *
@@ -120,6 +121,7 @@ OfflineController.prototype.getManifestInfo = function (manifestId, callback, fu
     info.status = status.status || STATUSES.BROKEN;
     info.details = status.details || undefined;
     if (!self.downloadStorage.keyExists(manifestId) && info.status === STATUSES.STARTED) {
+      log.info('getManifestInfo STATUSES.BROKEN')
       info.status = STATUSES.BROKEN;
     }
     info.manifest = manifestSettings;
