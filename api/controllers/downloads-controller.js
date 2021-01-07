@@ -253,6 +253,7 @@ DownloadsController.prototype._markDownloadItem = function (download) {
  * @returns {void}
  */
 DownloadsController.prototype._stopWithStatus = function (manifestId, onSuccess, onFailure, status, statusDetails) {
+  log.info('_stopWithStatus')
   const self = this;
   self._downloadOrderRemoveManifest(manifestId);
   self.storage.getItem(manifestId)
@@ -299,6 +300,7 @@ DownloadsController.prototype._stopWithStatus = function (manifestId, onSuccess,
  * @private
  */
 DownloadsController.prototype._onDownloadError = function (download, err) {
+  log.info('_onDownloadError')
   console.error("ERROR", download.remoteUrl, err);
   this._markDownloadItem(download);
   if (err === downloadFileUtil.errors.NO_SPACE_LEFT_ERROR || appSettings.getSettings().stopOnError) {
