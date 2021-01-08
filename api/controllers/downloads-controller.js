@@ -212,7 +212,7 @@ DownloadsController.prototype._markDownloadItem = function (download) {
     syncStorageKeys.push(this.storage.stores.DOWNLOADS.DOWNLOADED);
   } else {
     self.storage.errors.push(manifestId, download);
-    log.info('downloads-controller _markDownloadItem : ', self.storage.errors)
+    log.info('downloads-controller _markDownloadItem : ', self.storage.errors._items)
   }
   self.storage.downloading.removeItem(manifestId, downloadHash);
 
@@ -594,8 +594,9 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
 
           self.storage.downloaded.clear(manifestId);
           self.storage.downloaded.concat(manifestId, downloaded);
+          log.info('before storage.errors.clear() : ', self.storage.errors._items)
           self.storage.errors.clear(manifestId);
-          log.info('storage.errors.clear() : ', self.storage.errors)
+          log.info('after storage.errors.clear() : ', self.storage.errors._items)
 
           if (!fromResumed) {
             // do not initialise state of manifest is start is from resume
