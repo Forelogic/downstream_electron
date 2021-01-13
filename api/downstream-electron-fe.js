@@ -154,12 +154,12 @@ DownstreamElectronFE.prototype.downloads.createPersistent = function (args, reso
               resolve(persistentSessionId);
             }
           }, reject,
-          log.info('reject1'));
+          log.info('reject1', reject));
         }, reject,
-            log.info('reject2'));
+            log.info('reject2', reject));
       }
     }, reject,
-        log.info('reject3'));
+        log.info('reject3', reject));
   } else {
     log.info('No persistent plugin initialized')
     reject('No persistent plugin initialized');
