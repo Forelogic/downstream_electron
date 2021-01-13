@@ -6,6 +6,7 @@ const remote = require('electron').remote;
 const ipcRenderer = require('electron').ipcRenderer;
 
 const translation = require("./translation/index");
+const log = require('electron-log');
 
 let downstreamElectronFE;
 
@@ -123,11 +124,13 @@ DownstreamElectronFE.prototype.downloads.createPersistent = function (args, reso
   if (this._persistent) {
     this.downloads.info(manifestId).then(function (info) {
       if (!info) {
+        log.info('translation.e.manifests.NOT_FOUND')
         reject(translation.getError(translation.e.manifests.NOT_FOUND, manifestId));
         return;
       }
       const existingPersistentSessionId = info.persistent;
       if (existingPersistentSessionId && !forced) {
+        log.info('persistent session already exists:')
         reject('persistent session already exists:' + JSON.stringify(existingPersistentSessionId));
       } else {
         if (!config.pssh) {
@@ -139,19 +142,26 @@ DownstreamElectronFE.prototype.downloads.createPersistent = function (args, reso
             if (existingPersistentSessionId) {
               scope._persistent.removePersistentSession(existingPersistentSessionId)
               .then(function () {
+                log.info('persistentSessionId1', persistentSessionId)
                 resolve(persistentSessionId);
               })
               .catch(function () {
+                log.info('persistentSessionId2', persistentSessionId)
                 resolve(persistentSessionId);
               });
             } else {
+              log.info('persistentSessionId3', persistentSessionId)
               resolve(persistentSessionId);
             }
-          }, reject);
-        }, reject);
+          }, reject,
+          log.info('reject1'));
+        }, reject,
+            log.info('reject2'));
       }
-    }, reject);
+    }, reject,
+        log.info('reject3'));
   } else {
+    log.info('No persistent plugin initialized')
     reject('No persistent plugin initialized');
   }
 };
