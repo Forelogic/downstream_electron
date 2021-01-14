@@ -144,11 +144,7 @@ OfflineController.prototype.getManifestInfo = function (manifestId, callback, fu
     }
     info.data = data;
     addManifestInfoAndContinue(info);
-
-  },
-      callback
-      log.info('offline-controller callback3')
-  );
+  }, callback);
 };
 
 /**
