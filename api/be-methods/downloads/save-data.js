@@ -10,14 +10,12 @@ module.exports = function (api, onSuccess, onFailure, target, manifestId, data) 
       onFailure(translation.getError(translation.e.manifests.NOT_FOUND, manifestId), err);
     } else {
       const flushItem = new FlushItem(manifestId, appSettings.getSettings().stores.DATA, data);
-      log.info('save-data.js flushItem', flushItem)
       flushItem.save()
         .then(function () {
           onSuccess();
         }, function (err) {
           log.info('save-data.js err', err)
           log.info('save-data.js getError', translation.getError(translation.e.downloads.SAVING_DATA_FAILED, manifestId))
-          log.info('save-data.js onFailure', onFailure(translation.getError(translation.e.downloads.SAVING_DATA_FAILED, manifestId), err))
           onFailure(translation.getError(translation.e.downloads.SAVING_DATA_FAILED, manifestId), err);
         });
     }

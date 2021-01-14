@@ -2,6 +2,7 @@
 
 const translation = require("../../translation/index");
 const canCreateManifest = require("../../util/can-create-manifest");
+const log = require('electron-log');
 
 module.exports = function (api, onSuccess, onFailure, target, manifestId, representations, downloadFolder) {
   const manifest = api.manifestController.getManifestById(manifestId);
@@ -16,10 +17,13 @@ module.exports = function (api, onSuccess, onFailure, target, manifestId, repres
         onFailure(translation.getError(translation.e.downloads.ALREADY_STARTED, manifestId));
       } else {
         api.downloadsController.start(manifestId, representations, downloadFolder, onSuccess, function (err) {
+          log.info('start.js start err', err)
           onFailure(translation.getError(translation.e.downloads._GENERAL), err);
         });
       }
     }, function (err) {
+      log.info('start.js getItem err', err)
+      log.info('start.js getItem getError', translation.getError(translation.e.downloads.SAVING_DATA_FAILED, manifestId))
       onFailure(translation.getError(translation.e.downloads._GENERAL), err);
     });
   }
@@ -33,6 +37,7 @@ module.exports = function (api, onSuccess, onFailure, target, manifestId, repres
       if (movieFolderError) {
         // if movie folder has been already created the we can't start as it might be either different folder
         // or simply the resume should be used
+        log.info('start.js canCreateManifest error')
         onFailure(translation.getError(translation.e.manifests.FOLDER_ALREADY_EXISTS, manifestId));
         return;
       }
@@ -41,6 +46,7 @@ module.exports = function (api, onSuccess, onFailure, target, manifestId, repres
     // the manifest is saved in method start so this cannot be overwritten here
     api.offlineController.getManifestDataFile(manifestId, function (data) {
       if (data) {
+        log.info('start.js getManifestDataFile error')
         onFailure(translation.getError(translation.e.manifests.FOLDER_ALREADY_EXISTS, manifestId));
       } else {
         start();

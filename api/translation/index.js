@@ -171,7 +171,6 @@ function getError (key) {
   const keyValues = _getKeyValues(key, values);
   const msg = _getTranslation(key, values);
   const code = _getCode(key);
-  log.info('index.js key', key);
   return {
     code: code,
     msg: msg,
