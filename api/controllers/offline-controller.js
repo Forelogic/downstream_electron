@@ -87,14 +87,14 @@ OfflineController.prototype.getManifestInfo = function (manifestId, callback, fu
     if (manifest) {
       info.manifestInfo = manifest.getJsonInfo();
       callback(null, info);
-      log.info('callback1', info)
+      log.info('offline-controller callback1')
     } else {
       manifest = new Manifest(manifestId);
       manifest.loadFromLocal(manifestLocalUrl, manifestUrl).then(function () {
         self._manifestController.cacheManifest(manifest);
         info.manifestInfo = manifest.getJsonInfo();
         callback(null, info);
-        log.info('callback2', info)
+        log.info('offline-controller callback2')
       }, function (err) {
         log.info('offline-controller err', err)
         if (err && err.code === "ENOENT") {
@@ -145,7 +145,10 @@ OfflineController.prototype.getManifestInfo = function (manifestId, callback, fu
     info.data = data;
     addManifestInfoAndContinue(info);
 
-  }, callback);
+  },
+      callback
+      log.info('offline-controller callback3')
+  );
 };
 
 /**
