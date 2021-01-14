@@ -3,6 +3,7 @@
 const errors = require("./_errors");
 const translations = require("./_translations");
 const CODES = require("./../downloads/codes");
+const log = require('electron-log');
 
 const REGEXP_KEYS = /%[A-Za-z0-9_-]+%/g;
 
@@ -170,6 +171,7 @@ function getError (key) {
   const keyValues = _getKeyValues(key, values);
   const msg = _getTranslation(key, values);
   const code = _getCode(key);
+  log.info('index.js key', key);
   return {
     code: code,
     msg: msg,

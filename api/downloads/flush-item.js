@@ -4,6 +4,7 @@ const mkdirp = require('mkdirp');
 const appSettings = require('../app-settings');
 const jsonfile = require('jsonfile');
 const LinkSave = require('../manifest/json/link-save');
+const log = require('electron-log');
 
 /**
  *
@@ -37,9 +38,11 @@ FlushItem.prototype._saveToDisk = function (resolve, reject) {
         resolve();
       } else {
         reject(err);
+        log.info('flush-item err', err)
       }
     });
   }, function (error) {
+    log.info('flush-item error', error)
     reject(error);
   });
 };

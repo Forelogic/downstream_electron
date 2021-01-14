@@ -87,21 +87,16 @@ OfflineController.prototype.getManifestInfo = function (manifestId, callback, fu
     if (manifest) {
       info.manifestInfo = manifest.getJsonInfo();
       callback(null, info);
-      log.info('offline-controller callback1')
     } else {
       manifest = new Manifest(manifestId);
       manifest.loadFromLocal(manifestLocalUrl, manifestUrl).then(function () {
         self._manifestController.cacheManifest(manifest);
         info.manifestInfo = manifest.getJsonInfo();
         callback(null, info);
-        log.info('offline-controller callback2')
       }, function (err) {
-        log.info('offline-controller err', err)
         if (err && err.code === "ENOENT") {
-          log.info('offline-controller err.code === ENOENT')
           callback();
         } else {
-          log.info('offline-controller err.code !== ENOENT')
           callback(err);
         }
       });
@@ -126,7 +121,6 @@ OfflineController.prototype.getManifestInfo = function (manifestId, callback, fu
     info.status = status.status || STATUSES.BROKEN;
     info.details = status.details || undefined;
     if (!self.downloadStorage.keyExists(manifestId) && info.status === STATUSES.STARTED) {
-      log.info('getManifestInfo STATUSES.BROKEN')
       info.status = STATUSES.BROKEN;
     }
     info.manifest = manifestSettings;

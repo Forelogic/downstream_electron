@@ -17,6 +17,7 @@ module.exports = function (api, onSuccess, onFailure, target, manifestId, data) 
         }, function (err) {
           log.info('save-data.js err', err)
           log.info('save-data.js getError', translation.getError(translation.e.downloads.SAVING_DATA_FAILED, manifestId))
+          log.info('save-data.js onFailure', onFailure(translation.getError(translation.e.downloads.SAVING_DATA_FAILED, manifestId), err))
           onFailure(translation.getError(translation.e.downloads.SAVING_DATA_FAILED, manifestId), err);
         });
     }
