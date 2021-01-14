@@ -2,6 +2,7 @@
 const log = require('electron-log');
 
 module.exports = function (api, onSuccess /*, onFailure, target, manifestId */) {
-  log.info('/be-methods/downloads/createPersistent.js')
+  log.info('createPersistent.js onSuccess', onSuccess)
+  log.info('createPersistent.js api', api)
   onSuccess();
 };
