@@ -6,6 +6,7 @@ const log = require('electron-log');
 
 module.exports = function (api, onSuccess, onFailure, target, manifestId, persistent) {
   api.offlineController.getManifestInfo(manifestId, function (err) {
+      log.info('save-persistent')
     if (err) {
       onFailure(translation.getError(translation.e.manifests.NOT_FOUND, manifestId), err);
     } else {
