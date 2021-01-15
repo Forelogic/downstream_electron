@@ -137,6 +137,7 @@ DownstreamElectronFE.prototype.downloads.createPersistent = function (args, reso
           config.pssh = getWidevinePSSH(info);
         }
 
+        log.info('scope._persistent', scope._persistent)
         scope._persistent.createPersistentSession(config).then(function (persistentSessionId) {
           scope.downloads.savePersistent(manifestId, persistentSessionId).then(function () {
             if (existingPersistentSessionId) {
@@ -153,13 +154,10 @@ DownstreamElectronFE.prototype.downloads.createPersistent = function (args, reso
               log.info('persistentSessionId3', persistentSessionId)
               resolve(persistentSessionId);
             }
-          }, reject,
-          log.info('reject1'));
-        }, reject,
-            log.info('reject2'));
+          }, reject, log.info('reject1'));
+        }, reject, log.info('reject2'));
       }
-    }, reject,
-        log.info('reject3'));
+    }, reject, log.info('reject3'));
   } else {
     log.info('No persistent plugin initialized')
     reject('No persistent plugin initialized');

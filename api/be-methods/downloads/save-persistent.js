@@ -2,6 +2,7 @@
 const appSettings = require('../../app-settings');
 const translation = require('../../translation/index');
 const FlushItem = require("../../downloads/flush-item");
+const log = require('electron-log');
 
 module.exports = function (api, onSuccess, onFailure, target, manifestId, persistent) {
   api.offlineController.getManifestInfo(manifestId, function (err) {
@@ -13,6 +14,7 @@ module.exports = function (api, onSuccess, onFailure, target, manifestId, persis
           .then(function () {
             onSuccess();
           }, function (err) {
+              log.info('save-persistent err', err)
             onFailure(translation.getError(translation.e.downloads.SAVING_PERSISTENT_FAILED, manifestId), err);
           });
     }
