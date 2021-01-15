@@ -135,6 +135,7 @@ DownstreamElectronFE.prototype.downloads.createPersistent = function (args, reso
       } else {
         if (!config.pssh) {
           config.pssh = getWidevinePSSH(info);
+          log.info('config.pssh', config.pssh)
         }
 
         log.info('scope._persistent', scope._persistent)

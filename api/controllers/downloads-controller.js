@@ -212,8 +212,6 @@ DownloadsController.prototype._markDownloadItem = function (download) {
     syncStorageKeys.push(this.storage.stores.DOWNLOADS.DOWNLOADED);
   } else {
     self.storage.errors.push(manifestId, download);
-    log.info('downloads-controller _markDownloadItem : ', manifestId)
-    log.info('downloads-controller _markDownloadItem : ', self.storage.errors)
   }
   self.storage.downloading.removeItem(manifestId, downloadHash);
 
@@ -254,7 +252,6 @@ DownloadsController.prototype._markDownloadItem = function (download) {
  * @returns {void}
  */
 DownloadsController.prototype._stopWithStatus = function (manifestId, onSuccess, onFailure, status, statusDetails) {
-  log.info('_stopWithStatus')
   const self = this;
   self._downloadOrderRemoveManifest(manifestId);
   self.storage.getItem(manifestId)
@@ -595,11 +592,7 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
 
           self.storage.downloaded.clear(manifestId);
           self.storage.downloaded.concat(manifestId, downloaded);
-          log.info('before storage.errors.clear() : ', manifestId)
-          log.info('before storage.errors.clear() : ', self.storage.errors)
           self.storage.errors.clear(manifestId);
-          log.info('after storage.errors.clear() : ', manifestId)
-          log.info('after storage.errors.clear() : ', self.storage.errors)
 
           if (!fromResumed) {
             // do not initialise state of manifest is start is from resume
@@ -728,7 +721,6 @@ DownloadsController.prototype.stop = function (manifestId, onSuccess, onFailure)
  * @returns {Promise} - promise
  */
 DownloadsController.prototype.stopPromise = function (manifestId, ignoreStopped) {
-  log.info('stopPromise', manifestId)
   const self = this;
   return new Promise(function (resolve, reject) {
     self.stop(manifestId, resolve, function (err) {
@@ -751,7 +743,6 @@ DownloadsController.prototype.stopPromise = function (manifestId, ignoreStopped)
  * @returns {Promise} - promise
  */
 DownloadsController.prototype.removePromise = function (manifestId) {
-  log.info('removePromise', manifestId)
   const self = this;
   return new Promise(function (resolve, reject) {
     self.stopPromise(manifestId)
