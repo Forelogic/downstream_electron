@@ -7,7 +7,6 @@ const downloadFileUtil = require("../downloads/download-file-util");
 const log = require('electron-log');
 
 function removeDir (dir, cb, ENOTEMPTY_attempts) {
-  log.info('remove-dir dir', dir)
   ENOTEMPTY_attempts = ENOTEMPTY_attempts || 0;
   const ENOTEMPTY_maxAttempts = 10;
   const ENOTEMPTY_TIMEOUT = 500;

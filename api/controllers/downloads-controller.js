@@ -482,6 +482,7 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
   this.downloadStats.start();
   const manifest = this._manifestController.getManifestById(manifestId);
   if (!manifest) {
+    log.info('downloads-controller.js start onFailure1')
     onFailure(translation.getError(translation.e.manifests.NOT_FOUND, manifestId));
     return;
   }
@@ -543,8 +544,10 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
       const storageItem = results[1];
       if (storageItem && !self.isDownloadFinished(manifestId)) {
         if (fromResumed) {
+          log.info('downloads-controller.js start onFailure2')
           onFailure(translation.getError(translation.e.downloads.ALREADY_RESUMED, manifestId));
         } else {
+          log.info('downloads-controller.js start onFailure3')
           onFailure(translation.getError(translation.e.downloads.ALREADY_STARTED, manifestId));
         }
         return;
@@ -635,15 +638,19 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
                     self.storage.sync(manifestId, self.storage.stores.STATUS)
                       .then(function () {
                         self._finish(manifestId, onSuccess, onFailure);
-                      }, onFailure);
+                      }, onFailure,
+                          log.info('downloads-controller.js start onFailure3'));
                   } else {
                     self.downloadStats.start();
                     self.startQueue();
                     onSuccess();
                   }
-                }, onFailure);
-            }, onFailure);
-        }, onFailure);
+                }, onFailure,
+                    log.info('downloads-controller.js start onFailure4'));
+            }, onFailure,
+                log.info('downloads-controller.js start onFailure5'));
+        }, onFailure,
+            log.info('downloads-controller.js start onFailure6'));
     });
 };
 
