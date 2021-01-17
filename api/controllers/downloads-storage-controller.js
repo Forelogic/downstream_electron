@@ -305,11 +305,9 @@ DownloadsStorageController.prototype.removeItem = function (manifestId) {
  * @returns {Promise} promise
  */
 DownloadsStorageController.prototype.sync = function (manifestId, storageKeys) {
-  log.info('downloads-storage-controller.js sync')
   const self = this;
   return new Promise(function (resolve, reject) {
     if (typeof storageKeys === "undefined") {
-      log.info('downloads-storage-controller.js sync Storage key is missing', storageKeys)
       reject("Storage key is missing");
       return;
     }
@@ -317,11 +315,9 @@ DownloadsStorageController.prototype.sync = function (manifestId, storageKeys) {
       storageKeys = [storageKeys];
     }
     if (appSettings.getSettings().saveToDisk) {
-      log.info('downloads-storage-controller.js sync self._syncItems.push')
       self._syncItems.push(new SyncItem(resolve, reject, manifestId, storageKeys));
       self._flushThrottled();
     } else {
-      log.info('downloads-storage-controller.js sync resolve()')
       resolve();
     }
   });

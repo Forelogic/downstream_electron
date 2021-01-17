@@ -125,7 +125,6 @@ ManifestController.prototype.saveOriginalManifestOnceOnly = function (manifestId
   return new Promise(function (resolve, reject) {
     const manifest = self.getManifestById(manifestId);
     if (!manifest) {
-      log.info('manifest-controller.js saveOriginalManifestOnceOnly reject1')
       reject(translation.getError(translation.e.manifests.NOT_FOUND, manifestId));
       return;
     }
@@ -138,13 +137,11 @@ ManifestController.prototype.saveOriginalManifestOnceOnly = function (manifestId
         try {
           manifestString = xmlSerializer.serializeToString(manifest.getManifestXML());
         } catch (err) {
-          log.info('manifest-controller.js saveOriginalManifestOnceOnly reject2')
           reject(err);
           return;
         }
         saveFile(localPath, manifest.getManifestName(), manifestString, function (err) {
           if (err) {
-            log.info('manifest-controller.js saveOriginalManifestOnceOnly reject3')
             reject(err);
           } else {
             resolve();
@@ -163,13 +160,11 @@ ManifestController.prototype.saveOriginalManifestOnceOnly = function (manifestId
  * @returns {Promise} promise
  */
 ManifestController.prototype.saveManifestWithChosenRepresentations = function (manifestId, representations, downloadFolder) {
-  log.info('manifest-controller saveManifestWithChosenRepresentations')
   const localPath = downloadFolder;
   const self = this;
   return new Promise(function (resolve, reject) {
     const manifest = self.getManifestById(manifestId);
     if (!manifest) {
-      log.info('manifest-controller saveManifestWithChosenRepresentations reject1')
       reject(translation.getError(translation.e.manifests.NOT_FOUND, manifestId));
       return;
     }
@@ -177,13 +172,11 @@ ManifestController.prototype.saveManifestWithChosenRepresentations = function (m
     try {
       manifestString = parseManifestWithChoosenRepresentations(manifest, representations);
     } catch (err) {
-      log.info('manifest-controller saveManifestWithChosenRepresentations reject2')
       reject(err);
       return;
     }
     saveFile(localPath, manifest.getManifestName(), manifestString, function (err) {
       if (err) {
-        log.info('manifest-controller saveManifestWithChosenRepresentations reject3')
         reject(err);
       } else {
         resolve();

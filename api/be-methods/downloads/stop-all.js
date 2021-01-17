@@ -15,7 +15,6 @@ module.exports = function (api, onSuccess, onFailure) {
         let status = results[i].status;
         let manifestId = results[i].manifestInfo.id;
         if (status !== STATUSES.FINISHED) {
-          log.info('stop-all')
           manifestIds.push(manifestId);
           promises.push(api.downloadsController.stopPromise(manifestId, true));
         }
