@@ -125,6 +125,7 @@ ManifestController.prototype.saveOriginalManifestOnceOnly = function (manifestId
   return new Promise(function (resolve, reject) {
     const manifest = self.getManifestById(manifestId);
     if (!manifest) {
+      log.info('saveOriginalManifestOnceOnly reject1')
       reject(translation.getError(translation.e.manifests.NOT_FOUND, manifestId));
       return;
     }
@@ -137,11 +138,13 @@ ManifestController.prototype.saveOriginalManifestOnceOnly = function (manifestId
         try {
           manifestString = xmlSerializer.serializeToString(manifest.getManifestXML());
         } catch (err) {
+          log.info('saveOriginalManifestOnceOnly reject2', err)
           reject(err);
           return;
         }
         saveFile(localPath, manifest.getManifestName(), manifestString, function (err) {
           if (err) {
+            log.info('saveOriginalManifestOnceOnly reject3', err)
             reject(err);
           } else {
             resolve();

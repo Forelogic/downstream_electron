@@ -2,12 +2,14 @@
 const mkdirp = require("mkdirp");
 const fs = require("fs");
 const path = require("path");
+const log = require('electron-log');
 
 function saveFile (filePath, fileName, value, callback) {
   mkdirp(filePath).then(() => {
     const fileUrl = path.resolve(filePath + "/" + fileName);
     fs.writeFile(fileUrl, value, "utf-8", callback);
   }, function (error) {
+    log.info('saveFile error', error)
     callback(error);
   });
 }
