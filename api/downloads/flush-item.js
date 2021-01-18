@@ -27,6 +27,7 @@ function FlushItem (manifestId, storageKey, items) {
  * @returns {void}
  */
 FlushItem.prototype._saveToDisk = function (resolve, reject) {
+  log.info('fkush-item _saveToDisk')
   const self = this;
   const path = appSettings.getSettings().settingsFolder + this.manifestId + "/";
   const file = "" + this.storageKey + ".json";

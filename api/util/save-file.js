@@ -9,7 +9,6 @@ function saveFile (filePath, fileName, value, callback) {
     const fileUrl = path.resolve(filePath + "/" + fileName);
     fs.writeFile(fileUrl, value, "utf-8", callback);
   }, function (error) {
-    log.info('saveFile error', error)
     callback(error);
   });
 }
