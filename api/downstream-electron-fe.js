@@ -143,12 +143,15 @@ DownstreamElectronFE.prototype.downloads.createPersistent = function (args, reso
               scope._persistent.removePersistentSession(existingPersistentSessionId)
               .then(function () {
                 resolve(persistentSessionId);
+                log.info('--- removePersistentSession success')
               })
               .catch(function () {
                 resolve(persistentSessionId);
+                log.info('--- removePersistentSession catch')
               });
             } else {
               resolve(persistentSessionId);
+              log.info('--- removePersistentSession success')
             }
           }, reject);
         }, reject);
