@@ -123,12 +123,14 @@ DownstreamElectronFE.prototype.downloads.createPersistent = function (args, reso
   const scope = this;
   if (this._persistent) {
     this.downloads.info(manifestId).then(function (info) {
+      log.info('--- createPersistent info', info)
       if (!info) {
         log.info('translation.e.manifests.NOT_FOUND')
         reject(translation.getError(translation.e.manifests.NOT_FOUND, manifestId));
         return;
       }
       const existingPersistentSessionId = info.persistent;
+      log.info('--- createPersistent existingPersistentSessionId', info.persistent)
       if (existingPersistentSessionId && !forced) {
         log.info('persistent session already exists:')
         reject('persistent session already exists:' + JSON.stringify(existingPersistentSessionId));
