@@ -55,7 +55,6 @@ export const downstreamMiddleware = store => next => action => {
             downstreamElectron.downloads.createPersistent(action.id, action.persistentConfig).then((result) => {
                 defaultSuccessHandler(next, action, result);
             }, (error) => {
-                log.info('downstreamMiddleware error', error)
                 defaultErrorHandler(next, action, error);
             });
             break;

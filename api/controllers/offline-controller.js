@@ -116,6 +116,7 @@ OfflineController.prototype.getManifestInfo = function (manifestId, callback, fu
     const downloaded = results[1] || [];
     const status = results[2] || {};
     const persistent = results[3] || '';
+    log.info('--- offline-controller persistent', persistent)
     const data = results[4] || '';
 
     info.status = status.status || STATUSES.BROKEN;
@@ -132,6 +133,7 @@ OfflineController.prototype.getManifestInfo = function (manifestId, callback, fu
     }
     info.left = status.left || 0;
     info.persistent = persistent;
+    log.info('--- offline-controller info.persistent', info.persistent)
     info.downloaded = downloaded.length;
     if (full) {
       info.downloadedFiles = downloaded;

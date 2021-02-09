@@ -125,44 +125,36 @@ DownstreamElectronFE.prototype.downloads.createPersistent = function (args, reso
     this.downloads.info(manifestId).then(function (info) {
       log.info('--- createPersistent info', info)
       if (!info) {
-        log.info('translation.e.manifests.NOT_FOUND')
         reject(translation.getError(translation.e.manifests.NOT_FOUND, manifestId));
         return;
       }
       const existingPersistentSessionId = info.persistent;
       log.info('--- createPersistent existingPersistentSessionId', info.persistent)
       if (existingPersistentSessionId && !forced) {
-        log.info('persistent session already exists:')
         reject('persistent session already exists:' + JSON.stringify(existingPersistentSessionId));
       } else {
         if (!config.pssh) {
           config.pssh = getWidevinePSSH(info);
-          log.info('config', config)
         }
 
-        log.info('scope._persistent', scope._persistent)
         scope._persistent.createPersistentSession(config).then(function (persistentSessionId) {
           scope.downloads.savePersistent(manifestId, persistentSessionId).then(function () {
             if (existingPersistentSessionId) {
               scope._persistent.removePersistentSession(existingPersistentSessionId)
               .then(function () {
-                log.info('persistentSessionId1', persistentSessionId)
                 resolve(persistentSessionId);
               })
               .catch(function () {
-                log.info('persistentSessionId2', persistentSessionId)
                 resolve(persistentSessionId);
               });
             } else {
-              log.info('persistentSessionId3', persistentSessionId)
               resolve(persistentSessionId);
             }
-          }, reject, log.info('reject1'));
-        }, reject, log.info('reject2'));
+          }, reject);
+        }, reject);
       }
-    }, reject, log.info('reject3'));
+    }, reject);
   } else {
-    log.info('No persistent plugin initialized')
     reject('No persistent plugin initialized');
   }
 };
