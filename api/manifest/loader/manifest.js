@@ -66,8 +66,8 @@ Manifest.prototype.loadWithManifest = function (url, manifest) {
   Manifest.prototype.loadFromLocal = function (localPath, url) {
     const _this = this;
     return new Promise(function (resolve, reject) {
-      log.info('loadWithManifest url : ', url)
-      log.info('loadWithManifest localPath : ', localPath)
+      log.info('loadFromLocal url : ', url)
+      log.info('loadFromLocal localPath : ', localPath)
       if (!url || !localPath) {
         reject('wrong parameter');
         return;

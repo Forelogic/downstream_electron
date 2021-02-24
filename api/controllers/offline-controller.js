@@ -112,8 +112,8 @@ OfflineController.prototype.getManifestInfo = function (manifestId, callback, fu
   ]).then(function (results) {
     let info = {};
     const manifestSettings = results[0] || {};
-    log.info('loadWithManifest manifestSettings : ', manifestSettings)
-    log.info('loadWithManifest manifestId : ', manifestId)
+    log.info('getManifestInfo manifestSettings : ', manifestSettings)
+    log.info('getManifestInfo manifestId : ', manifestId)
 
     const downloaded = results[1] || [];
     const status = results[2] || {};
