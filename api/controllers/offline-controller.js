@@ -8,6 +8,7 @@ const ReadItem = require("../downloads/read-item");
 const dirList = require("../util/dir-list");
 const Manifest = require("../manifest/loader/manifest").Manifest;
 const STATUSES = require("../downloads/statuses");
+const log = require('electron-log');
 
 /**
  *
@@ -111,6 +112,8 @@ OfflineController.prototype.getManifestInfo = function (manifestId, callback, fu
   ]).then(function (results) {
     let info = {};
     const manifestSettings = results[0] || {};
+    log.info('loadWithManifest manifestSettings : ', manifestSettings)
+    log.info('loadWithManifest manifestId : ', manifestId)
 
     const downloaded = results[1] || [];
     const status = results[2] || {};

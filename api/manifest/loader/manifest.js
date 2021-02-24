@@ -10,6 +10,7 @@ const jsonRepresentationWithProtection = require("../parser/json-representation-
 const manifestLoader = new ManifestLoader.ManifestLoader();
 const urlParse = require("url-parse");
 const encoding = require("../../util/encoding");
+const log = require('electron-log');
 
 const Manifest = (function () {
   function Manifest (id) {
@@ -65,6 +66,8 @@ Manifest.prototype.loadWithManifest = function (url, manifest) {
   Manifest.prototype.loadFromLocal = function (localPath, url) {
     const _this = this;
     return new Promise(function (resolve, reject) {
+      log.info('loadWithManifest url : ', url)
+      log.info('loadWithManifest localPath : ', localPath)
       if (!url || !localPath) {
         reject('wrong parameter');
         return;
