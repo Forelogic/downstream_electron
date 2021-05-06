@@ -194,6 +194,8 @@ function loadUserSettings (jsonSettings) {
   appDir = path.join(path.resolve(appDir), "/");
 
   let settingsFolder = path.join(path.resolve(appDir + settingsName) + "/", "/");
+  const log = require('electron-log');
+  log.info('app-settings.js settingsFolder', settingsFolder)
 
   let publicFolderPath = path.join(path.resolve(appDir + publicName) + "/", "/");
 
