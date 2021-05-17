@@ -17,6 +17,7 @@ const path = require("path");
 const ReadItem = require("../downloads/read-item");
 const FlushItem = require("../downloads/flush-item");
 const downloadFileUtil = require("../downloads/download-file-util");
+const log = require('electron-log');
 
 /**
  *
@@ -191,7 +192,7 @@ DownloadsController.prototype._getDownloadHash = function (link) {
  * @returns {void}
  */
 DownloadsController.prototype._markDownloadItem = function (download) {
-  console.log('_markDownloadItem')
+  log.info('_markDownloadItem')
   const self = this;
   const manifestId = download.manifestId;
   const downloadHash = self._getDownloadHash(download);
@@ -207,7 +208,7 @@ DownloadsController.prototype._markDownloadItem = function (download) {
     lastItem = true;
   }
 
-  console.log('_markDownloadItem download.status', download.status)
+  log.info('_markDownloadItem download.status', download.status)
   if (download.status === STATUSES.FINISHED) {
     self.storage.downloaded.push(manifestId, download);
     syncStorageKeys.push(this.storage.stores.DOWNLOADS.DOWNLOADED);
@@ -216,7 +217,7 @@ DownloadsController.prototype._markDownloadItem = function (download) {
   }
   self.storage.downloading.removeItem(manifestId, downloadHash);
 
-  console.log('_markDownloadItem isDownloadFinished', self.isDownloadFinished(manifestId))
+  log.info('_markDownloadItem isDownloadFinished', self.isDownloadFinished(manifestId))
   if (self.isDownloadFinished(manifestId)) {
     if (self.storage.errors.count(manifestId) === 0) {
       self.storage.status.setItem(manifestId, "status", STATUSES.FINISHED);
@@ -232,7 +233,6 @@ DownloadsController.prototype._markDownloadItem = function (download) {
       if (lastItem) {
         self._finish(manifestId, function () {
           self.startQueue();
-          console.info("FINISHED", manifestId);
         }, function () {
           self.startQueue();
         });
@@ -240,7 +240,6 @@ DownloadsController.prototype._markDownloadItem = function (download) {
         self.startQueue();
       }
     }, function (err) {
-      console.error("ERROR", err);
     });
 };
 
