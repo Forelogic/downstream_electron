@@ -46,6 +46,7 @@ OfflineController.prototype.getManifestsListWithInfo = function (callback, full)
   const self = this;
   this.getManifestsList(function (err, list) {
     if (err) {
+      console.log('getManifestsList err : ', err);
       callback(err);
     } else {
       let infoP = [];
@@ -61,6 +62,7 @@ OfflineController.prototype.getManifestsListWithInfo = function (callback, full)
         }
         callback(null, newResults);
       }, function (err) {
+        console.log('Promise.all(infoP) err : ', err);
         callback(err);
       });
     }
