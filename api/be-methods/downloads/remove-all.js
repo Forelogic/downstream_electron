@@ -5,9 +5,9 @@ const log = require('electron-log');
 
 module.exports = function (api, onSuccess, onFailure) {
   api.offlineController.getManifestsListWithInfo(function (err, manifests) {
-      log.info('downstream remove-all getManifestsList');
+      log.info('remove-all getManifestsList');
     if (err) {
-        log.info('downstream getManifestsList err : ', err);
+        log.info('getManifestsList err : ', err);
       onFailure(translation.getError(translation.e.downloads.REMOVING_ALL_FAILED), err);
     } else {
       const manifestIds = manifests.map(function (manifest) {
@@ -25,11 +25,11 @@ module.exports = function (api, onSuccess, onFailure) {
                   api.manifestController.removeFromCacheAll();
                   onSuccess(manifests);
                 }, function (err) {
-                    log.info('downstream Promise.all(promises) err : ', err);
+                    log.info('Promise.all(promises) err : ', err);
                   onFailure(translation.getError(translation.e.downloads.REMOVING_ALL_FAILED), err);
                 });
           }, function (err) {
-              log.info('downstream Promise.all(promises)_2 err : ', err);
+              log.info('Promise.all(promises)_2 err : ', err);
             onFailure(translation.getError(translation.e.downloads.REMOVING_ALL_FAILED), err);
           });
     }

@@ -9,6 +9,7 @@ const FlushItem = require("../downloads/flush-item");
 const Storage = require("./../util/storage");
 const StorageBridge = require("./../util/storage-bridge");
 const SyncItem = require("../downloads/sync-item");
+const log = require('electron-log');
 
 /**
  *
@@ -261,9 +262,12 @@ DownloadsStorageController.prototype.createIfNotExists = function (manifestId) {
  * @returns {Promise} promise
  */
 DownloadsStorageController.prototype.getItem = function (manifestId) {
+  log.info('downloads-storage-controller getItem : ', manifestId)
+  log.info('this._items : ', this._items)
   const self = this;
   return new Promise(function (resolve) {
     resolve(self._items[manifestId]);
+    log.info('getItem resolve : ', self._items[manifestId])
   });
 };
 

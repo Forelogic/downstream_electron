@@ -44,11 +44,11 @@ OfflineController.prototype.getManifestsList = function (callback) {
  * @returns {void}
  */
 OfflineController.prototype.getManifestsListWithInfo = function (callback, full) {
-  log.info('downstream offline-controller getManifestsList');
+  log.info('offline-controller getManifestsList');
   const self = this;
   this.getManifestsList(function (err, list) {
     if (err) {
-      log.info('downstream getManifestsList err : ', err);
+      log.info('getManifestsList err : ', err);
       callback(err);
     } else {
       let infoP = [];
@@ -64,7 +64,7 @@ OfflineController.prototype.getManifestsListWithInfo = function (callback, full)
         }
         callback(null, newResults);
       }, function (err) {
-        log.info('downstream Promise.all(infoP) err : ', err);
+        log.info('Promise.all(infoP) err : ', err);
         callback(err);
       });
     }

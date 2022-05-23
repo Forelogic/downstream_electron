@@ -6,9 +6,9 @@ const log = require('electron-log');
 
 module.exports = function (api, onSuccess, onFailure) {
   api.offlineController.getManifestsListWithInfo(function (err, results) {
-    log.info('downstream stop-all getManifestsList');
+    log.info('stop-all getManifestsList');
     if (err) {
-      log.info('downstream getManifestsList err : ', err);
+      log.info('getManifestsList err : ', err);
       onFailure(translation.getError(translation.e.downloads.STOPPING_ALL_FAILED), err);
     } else {
       let promises = [];
@@ -26,11 +26,11 @@ module.exports = function (api, onSuccess, onFailure) {
             .then(function () {
               onSuccess(manifestIds);
             }, function (err) {
-              log.info('downstream Promise.all(promises) err : ', err);
+              log.info('Promise.all(promises) err : ', err);
               onFailure(translation.getError(translation.e.downloads.STOPPING_ALL_FAILED), err);
             });
       } else {
-        log.info('downstream manifestIds.length === 0 err : ', err);
+        log.info('manifestIds.length === 0 err : ', err);
         onFailure(translation.getError(translation.e.downloads.ALREADY_STOPPED_ALL));
       }
     }
