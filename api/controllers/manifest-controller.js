@@ -6,6 +6,7 @@ const parseManifestWithChoosenRepresentations = require("../util/parse-manifest-
 const downloadFileUtil = require("../downloads/download-file-util");
 const saveFile = require("../util/save-file");
 const translation = require('../translation/index');
+const log = require('electron-log');
 
 /**
  *
@@ -118,6 +119,7 @@ ManifestController.prototype.removeFromCacheAll = function () {
  * @returns {Promise} promise
  */
 ManifestController.prototype.saveOriginalManifestOnceOnly = function (manifestId) {
+  log.info('manifest-controller saveOriginalManifestOnceOnly')
   const localPath = this.getOriginalManifestLocalPath(manifestId);
   const self = this;
   return new Promise(function (resolve, reject) {
@@ -158,6 +160,7 @@ ManifestController.prototype.saveOriginalManifestOnceOnly = function (manifestId
  * @returns {Promise} promise
  */
 ManifestController.prototype.saveManifestWithChosenRepresentations = function (manifestId, representations, downloadFolder) {
+  log.info('manifest-controller saveManifestWithChosenRepresentations')
   const localPath = downloadFolder;
   const self = this;
   return new Promise(function (resolve, reject) {

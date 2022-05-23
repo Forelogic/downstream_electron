@@ -1,5 +1,6 @@
 const fs = require("fs");
 const appSettings = require('../app-settings');
+const log = require('electron-log');
 
 /**
  *
@@ -35,10 +36,13 @@ const errors = {
  * @returns {void}
  */
 function checkForLocalFile (fileUrl, callback) {
+  log.info('download-file-util checkForLocalFile')
   fs.stat(fileUrl, function (error, stat) {
     if (error) {
+      log.info('download-file-util fs.stat err : ', error)
       callback(false)
     } else {
+      log.info('download-file-util fs.stat : ', stat.size)
       callback(true, stat.size);
     }
   });

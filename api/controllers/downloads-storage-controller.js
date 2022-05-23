@@ -242,6 +242,7 @@ DownloadsStorageController.prototype.create = function (manifestId) {
  * @returns {Promise} promise
  */
 DownloadsStorageController.prototype.createIfNotExists = function (manifestId) {
+  log.info('downloads-storage-controller createIfNotExists')
   const self = this;
   return new Promise(function (resolve, reject) {
     self.getItem(manifestId)

@@ -14,6 +14,7 @@ module.exports = function (api, onSuccess, onFailure, target, manifestId, repres
   function start () {
     log.info('start.js start')
     api.downloadsController.storage.getItem(manifestId).then(function (result) {
+      log.info('start.js getItem result : ', result)
       if (result) {
         log.info('start result : ', result)
         onFailure(translation.getError(translation.e.downloads.ALREADY_STARTED, manifestId));

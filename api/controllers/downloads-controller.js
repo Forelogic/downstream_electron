@@ -513,6 +513,9 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
   const localPath = path.resolve(localDownloadFolder + "/" + manifestId + "/");
   const manifestUrl = manifest.getManifestUrl();
   const manifestName = manifest.getManifestName();
+  log.info('downloads-controller.js localPath : ', localPath);
+  log.info('downloads-controller.js manifestUrl : ', manifestUrl);
+  log.info('downloads-controller.js manifestName : ', manifestName);
 
   function getManifestBaseUrl (xml, manifestUrlDomain) {
     log.info('downloads-controller.js getManifestBaseUrl')
