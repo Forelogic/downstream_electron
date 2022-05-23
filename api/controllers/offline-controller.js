@@ -8,6 +8,7 @@ const ReadItem = require("../downloads/read-item");
 const dirList = require("../util/dir-list");
 const Manifest = require("../manifest/loader/manifest").Manifest;
 const STATUSES = require("../downloads/statuses");
+const log = require('electron-log');
 
 /**
  *
@@ -43,11 +44,11 @@ OfflineController.prototype.getManifestsList = function (callback) {
  * @returns {void}
  */
 OfflineController.prototype.getManifestsListWithInfo = function (callback, full) {
-  console.log('downstream offline-controller getManifestsList');
+  log.info('downstream offline-controller getManifestsList');
   const self = this;
   this.getManifestsList(function (err, list) {
     if (err) {
-      console.log('downstream getManifestsList err : ', err);
+      log.info('downstream getManifestsList err : ', err);
       callback(err);
     } else {
       let infoP = [];
@@ -63,7 +64,7 @@ OfflineController.prototype.getManifestsListWithInfo = function (callback, full)
         }
         callback(null, newResults);
       }, function (err) {
-        console.log('downstream Promise.all(infoP) err : ', err);
+        log.info('downstream Promise.all(infoP) err : ', err);
         callback(err);
       });
     }

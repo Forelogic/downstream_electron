@@ -17,6 +17,7 @@ const path = require("path");
 const ReadItem = require("../downloads/read-item");
 const FlushItem = require("../downloads/flush-item");
 const downloadFileUtil = require("../downloads/download-file-util");
+const log = require('electron-log');
 
 /**
  *
@@ -316,7 +317,7 @@ DownloadsController.prototype._onDownloadError = function (download, err) {
  * @private
  */
 DownloadsController.prototype._onDownloadEnd = function (download) {
-  // console.log("FINISHED", download.remoteUrl, download.localUrl);
+  // log.info("FINISHED", download.remoteUrl, download.localUrl);
   this._markDownloadItem(download);
 };
 
@@ -476,12 +477,12 @@ DownloadsController.prototype.performSeek = function (manifestId, localFile, cal
  * @returns {void}
  */
 DownloadsController.prototype.start = function (manifestId, representations, downloadFolder, onSuccess, onFailure, fromResumed, oldstatus) {
-  console.log('downstream downloads-controller.js start')
+  log.info('downstream downloads-controller.js start')
   const self = this;
   this.downloadStats.start();
   const manifest = this._manifestController.getManifestById(manifestId);
   if (!manifest) {
-    console.log('downstream failure !manifest')
+    log.info('downstream failure !manifest')
     onFailure(translation.getError(translation.e.manifests.NOT_FOUND, manifestId));
     return;
   }
@@ -514,7 +515,7 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
   const manifestName = manifest.getManifestName();
 
   function getManifestBaseUrl (xml, manifestUrlDomain) {
-    console.log('downstream downloads-controller.js getManifestBaseUrl')
+    log.info('downstream downloads-controller.js getManifestBaseUrl')
     let manifestBaseUrl;
     const MPD = xml.getElementsByTagName("MPD")[0];
     if (MPD) {
@@ -540,15 +541,15 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
     mkdirp(localPath),
   ])
     .then(function (results) {
-      console.log('downstream downloads-controller.js Promise.all')
+      log.info('downstream downloads-controller.js Promise.all')
       const info = results[0];
       const storageItem = results[1];
       if (storageItem && !self.isDownloadFinished(manifestId)) {
         if (fromResumed) {
-          console.log('downstream failure Promise.all_1')
+          log.info('downstream failure Promise.all_1')
           onFailure(translation.getError(translation.e.downloads.ALREADY_RESUMED, manifestId));
         } else {
-          console.log('downstream failure Promise.all_2')
+          log.info('downstream failure Promise.all_2')
           onFailure(translation.getError(translation.e.downloads.ALREADY_STARTED, manifestId));
         }
         return;
@@ -584,7 +585,7 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
 
       self.storage.createIfNotExists(manifestId)
         .then(function () {
-          console.log('downstream downloads-controller.js createIfNotExists')
+          log.info('downstream downloads-controller.js createIfNotExists')
           self.storage.manifest.setItem(manifestId, "ts", new Date().getTime());
           self.storage.manifest.setItem(manifestId, "url", manifestUrl);
           self.storage.manifest.setItem(manifestId, "name", manifestName);
@@ -621,7 +622,7 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
               localPath)
           ])
             .then(function () {
-              console.log('downstream downloads-controller.js Promise.all_2')
+              log.info('downstream downloads-controller.js Promise.all_2')
               self._addDownloads(manifestId, videoLinks, audioLinks, textLinks);
               if (self._indexOfManifest(manifestId) > appSettings.getSettings().numberOfManifestsInParallel - 1) {
                 self.storage.status.setItem(manifestId, "status", STATUSES.QUEUED);
@@ -634,13 +635,13 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
                 self.storage.stores.STATUS
               ])
                 .then(function () {
-                  console.log('downstream downloads-controller.js Promise.all_3')
+                  log.info('downstream downloads-controller.js Promise.all_3')
                   self.downloadStats.refresh();
                   if (self.isDownloadFinished(manifestId)) {
                     self.storage.status.setItem(manifestId, "status", STATUSES.FINISHED);
                     self.storage.sync(manifestId, self.storage.stores.STATUS)
                       .then(function () {
-                        console.log('downstream downloads-controller.js Promise.all_4')
+                        log.info('downstream downloads-controller.js Promise.all_4')
                         self._finish(manifestId, onSuccess, onFailure);
                       }, onFailure);
                   } else {
