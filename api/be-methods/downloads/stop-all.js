@@ -5,7 +5,9 @@ const STATUSES = require("../../downloads/statuses");
 
 module.exports = function (api, onSuccess, onFailure) {
   api.offlineController.getManifestsListWithInfo(function (err, results) {
+    console.log('downstream stop-all getManifestsList');
     if (err) {
+      console.log('downstream getManifestsList err : ', err);
       onFailure(translation.getError(translation.e.downloads.STOPPING_ALL_FAILED), err);
     } else {
       let promises = [];
@@ -23,9 +25,11 @@ module.exports = function (api, onSuccess, onFailure) {
             .then(function () {
               onSuccess(manifestIds);
             }, function (err) {
+              console.log('downstream Promise.all(promises) err : ', err);
               onFailure(translation.getError(translation.e.downloads.STOPPING_ALL_FAILED), err);
             });
       } else {
+        console.log('downstream manifestIds.length === 0 err : ', err);
         onFailure(translation.getError(translation.e.downloads.ALREADY_STOPPED_ALL));
       }
     }
