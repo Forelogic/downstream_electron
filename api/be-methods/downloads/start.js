@@ -11,15 +11,19 @@ module.exports = function (api, onSuccess, onFailure, target, manifestId, repres
   }
 
   function start () {
+    console.log('downstream start.js start')
     api.downloadsController.storage.getItem(manifestId).then(function (result) {
       if (result) {
+        console.log('downstream start result : ', result)
         onFailure(translation.getError(translation.e.downloads.ALREADY_STARTED, manifestId));
       } else {
         api.downloadsController.start(manifestId, representations, downloadFolder, onSuccess, function (err) {
+          console.log('downstream start err_1 : ', err)
           onFailure(translation.getError(translation.e.downloads._GENERAL), err);
         });
       }
     }, function (err) {
+      console.log('downstream start err_2 : ', err)
       onFailure(translation.getError(translation.e.downloads._GENERAL), err);
     });
   }
