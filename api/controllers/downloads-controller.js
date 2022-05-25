@@ -538,7 +538,9 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
     return manifestBaseUrl;
   }
 
-  // TODO: ここが原因
+  // TODO
+  // mkdirを実行時にパーミッションがないことが原因で落ちる
+  // 現在のソースの場合、catchをしていないのでインジケーターが回り続ける
   Promise.all([
     this._offlineController.getManifestInfoPromise(manifestId, true),
     this.storage.getItem(manifestId),

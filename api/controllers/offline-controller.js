@@ -142,7 +142,10 @@ OfflineController.prototype.getManifestInfo = function (manifestId, callback, fu
       info.downloadedFiles = downloaded;
     }
     info.data = data;
-    log.info('offline-controller Promise.all info : ', info)
+    log.info('offline-controller Promise.all status : ', info.status)
+    log.info('offline-controller Promise.all details : ', info.details)
+    log.info('offline-controller Promise.all persistent : ', info.persistent)
+    log.info('offline-controller Promise.all downloaded : ', info.downloaded)
     addManifestInfoAndContinue(info);
 
   }, callback);
