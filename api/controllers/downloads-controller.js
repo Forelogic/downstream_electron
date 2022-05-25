@@ -564,6 +564,28 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
     }
   })
 
+  // TODO: テスト用コード追加
+  try {
+    fs.accessSync(localDownloadFolder, fs.constants.X_OK)
+    log.info('fs.access execute not err')
+  } catch (err) {
+    log.info('fs.access execute err : ', err)
+  }
+
+  try {
+    fs.accessSync(localDownloadFolder, fs.constants.R_OK)
+    log.info('fs.access read not err')
+  } catch (err) {
+    log.info('fs.access read err : ', err)
+  }
+
+  try {
+    fs.accessSync(localDownloadFolder, fs.constants.W_OK)
+    log.info('fs.access write not err')
+  } catch (err) {
+    log.info('fs.access write err : ', err)
+  }
+
   // TODO
   // mkdirを実行時にパーミッションがないことが原因で落ちる
   // 現在のソースの場合、catchをしていないのでインジケーターが回り続ける
