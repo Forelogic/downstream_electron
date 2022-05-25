@@ -594,30 +594,12 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
     }
   })
 
-  fs.lstat(localPath, (err, stat) => {
-    if (err) {
-      log.info('fs.lstat localPath err : ', err)
-    }
-    if (stat) {
-      log.info('fs.lstat localPath stat : ', stat)
-    }
-  })
-
   fs.stat(localDownloadFolder, (err, stat) => {
     if (err) {
       log.info('fs.stat localDownloadFolder err : ', err)
     }
     if (stat) {
       log.info('fs.stat localDownloadFolder stat : ', stat)
-    }
-  })
-
-  fs.stat(localPath, (err, stat) => {
-    if (err) {
-      log.info('fs.stat localPath err : ', err)
-    }
-    if (stat) {
-      log.info('fs.stat localPath stat : ', stat)
     }
   })
 
@@ -630,13 +612,15 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
   //   }
   // })
 
-  mkdirp(localPath, (err) => {
-    if (err) {
-      log.info('mkdirp err : ', err)
-    } else {
-      log.info('mkdirp success')
-    }
-  })
+  try {
+    mkdirp(localPath).then(function () {
+      log.info('fs.mkdir success')
+    }, function (err) {
+      log.info('fs.mkdir err : ', err)
+    })
+  } catch (err) {
+    log.info('fs.mkdirp catch err : ', err)
+  }
 
   // TODO
   // mkdirを実行時にパーミッションがないことが原因で落ちる
