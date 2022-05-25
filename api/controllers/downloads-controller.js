@@ -538,6 +538,7 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
     return manifestBaseUrl;
   }
 
+  // TODO: ここが原因
   Promise.all([
     this._offlineController.getManifestInfoPromise(manifestId, true),
     this.storage.getItem(manifestId),
@@ -655,7 +656,9 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
                 }, onFailure);
             }, onFailure);
         }, onFailure);
-    });
+    }).catch(e => {
+      log.info('downloads-controller promise.all error : ', e)
+  });
 };
 
 /**

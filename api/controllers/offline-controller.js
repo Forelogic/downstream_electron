@@ -79,9 +79,11 @@ OfflineController.prototype.getManifestsListWithInfo = function (callback, full)
  * @returns {void}
  */
 OfflineController.prototype.getManifestInfo = function (manifestId, callback, full) {
+  log.info('offline-controller getManifestInfo')
   const self = this;
 
   function addManifestInfoAndContinue (info) {
+    log.info('offline-controller addManifestInfoAndContinue')
     const manifestName = info.manifest.name;
     const manifestUrl = info.manifest.url;
     const manifestLocalUrl = path.resolve(appSettings.getSettings().settingsFolder + "/" + manifestId + "/" + manifestName);
@@ -140,6 +142,7 @@ OfflineController.prototype.getManifestInfo = function (manifestId, callback, fu
       info.downloadedFiles = downloaded;
     }
     info.data = data;
+    log.info('offline-controller Promise.all info : ', info)
     addManifestInfoAndContinue(info);
 
   }, callback);
@@ -187,12 +190,15 @@ OfflineController.prototype.getManifestFolderInfo = function (manifestId, callba
  * @returns {Promise} - promise
  */
 OfflineController.prototype.getManifestInfoPromise = function (manifestId, full) {
+  log.info('offline-controller getManifestInfoPromise')
   const self = this;
   return new Promise(function (resolve, reject) {
     self.getManifestInfo(manifestId, function (err, result) {
       if (err) {
+        log.info('offline-controller getManifestInfo err : ', err)
         reject(err)
       } else {
+        log.info('offline-controller getManifestInfo result : ', result)
         resolve(result);
       }
     }, full)
