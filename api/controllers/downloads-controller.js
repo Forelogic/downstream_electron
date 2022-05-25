@@ -544,7 +544,7 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
     if (err) {
       log.info('fs.access execute err : ', err)
     } else {
-      log.info('fs.access execute not err')
+      log.info('fs.access execute not err : ', localDownloadFolder)
     }
   })
 
@@ -552,7 +552,7 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
     if (err) {
       log.info('fs.access read err : ', err)
     } else {
-      log.info('fs.access read not err')
+      log.info('fs.access read not err : ', localDownloadFolder)
     }
   })
 
@@ -560,31 +560,46 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
     if (err) {
       log.info('fs.access write err : ', err)
     } else {
-      log.info('fs.access write not err')
+      log.info('fs.access write not err : ', localDownloadFolder)
     }
   })
 
-  // TODO: テスト用コード追加
   try {
     fs.accessSync(localDownloadFolder, fs.constants.X_OK)
-    log.info('fs.access execute not err')
+    log.info('fs.accessSync execute not err : ', localDownloadFolder)
   } catch (err) {
-    log.info('fs.access execute err : ', err)
+    log.info('fs.accessSync execute err : ', err)
   }
 
   try {
     fs.accessSync(localDownloadFolder, fs.constants.R_OK)
-    log.info('fs.access read not err')
+    log.info('fs.accessSync read not err : ', localDownloadFolder)
   } catch (err) {
-    log.info('fs.access read err : ', err)
+    log.info('fs.accessSync read err : ', err)
   }
 
   try {
     fs.accessSync(localDownloadFolder, fs.constants.W_OK)
-    log.info('fs.access write not err')
+    log.info('fs.accessSync write not err : ', localDownloadFolder)
   } catch (err) {
-    log.info('fs.access write err : ', err)
+    log.info('fs.accessSync write err : ', err)
   }
+
+  fs.mkdir(localPath,{ recursive: true }, (err) => {
+    if (err) {
+      log.info('fs.mkdir err : ', err)
+    } else {
+      log.info('fs.mkdir success')
+    }
+  })
+
+  mkdirp(localPath, (err) => {
+    if (err) {
+      log.info('mkdirp err : ', err)
+    } else {
+      log.info('mkdirp success')
+    }
+  })
 
   // TODO
   // mkdirを実行時にパーミッションがないことが原因で落ちる
