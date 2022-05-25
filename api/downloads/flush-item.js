@@ -4,6 +4,7 @@ const mkdirp = require('mkdirp');
 const appSettings = require('../app-settings');
 const jsonfile = require('jsonfile');
 const LinkSave = require('../manifest/json/link-save');
+const log = require('electron-log');
 
 /**
  *
@@ -26,20 +27,25 @@ function FlushItem (manifestId, storageKey, items) {
  * @returns {void}
  */
 FlushItem.prototype._saveToDisk = function (resolve, reject) {
+  log.info('flush-item.js saveToDisk')
   const self = this;
   const path = appSettings.getSettings().settingsFolder + this.manifestId + "/";
   const file = "" + this.storageKey + ".json";
   const fileUrl = path + file;
+  log.info('flush-item.js saveToDisk fileUrl : ', fileUrl)
   mkdirp(path).then(function () {
     let data = convertStorage(self.storageKey, self.items);
     jsonfile.writeFile(fileUrl, data, function (err) {
       if (!err) {
+        log.info('flush-item.js saveToDisk writeFile success')
         resolve();
       } else {
+        log.info('flush-item.js saveToDisk writeFile err : ', err)
         reject(err);
       }
     });
   }, function (error) {
+    log.info('flush-item.js saveToDisk mkdirp err : ', error)
     reject(error);
   });
 };

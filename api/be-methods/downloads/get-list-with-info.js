@@ -10,7 +10,7 @@ module.exports = function (api, onSuccess, onFailure, target, full) {
       log.info('getManifestsList err : ', err);
       onFailure(translation.getError(translation.e.manifests.LIST_LOADING_FAILED), err);
     } else {
-      log.info('getManifestsList list : ', list);
+      log.info('getManifestsList list');
       onSuccess(list);
     }
   }, full);

@@ -8,7 +8,7 @@ const mkdirp = require("mkdirp");
 const appSettings = require("../app-settings");
 const EventEmitter = require("events").EventEmitter;
 const STATUSES = require("./statuses");
-
+const log = require('electron-log');
 
 /**
  *
@@ -63,9 +63,11 @@ Download.prototype._createLocalPath = function (callback) {
   let folders = this.localUrl.split("/");
   folders = folders.slice(0, folders.length - 1);
   folders = folders.join("/");
+  log.info('download.js createLocalPath folders : ', folders)
   mkdirp(folders).then(function () {
     callback();
   }, function (error) {
+    log.info('download.js createLocalPath err : ', error)
     callback(error);
   });
 };
