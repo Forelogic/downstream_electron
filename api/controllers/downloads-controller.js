@@ -585,13 +585,50 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
     log.info('fs.accessSync write err : ', err)
   }
 
-  fs.mkdir(localPath,{ recursive: true }, (err) => {
+  fs.lstat(localDownloadFolder, (err, stat) => {
     if (err) {
-      log.info('fs.mkdir err : ', err)
-    } else {
-      log.info('fs.mkdir success')
+      log.info('fs.lstat localPath err : ', err)
+    }
+    if (stat) {
+      log.info('fs.lstat localPath stat : ', stat)
     }
   })
+
+  fs.lstat(localPath, (err, stat) => {
+    if (err) {
+      log.info('fs.lstat localPath err : ', err)
+    }
+    if (stat) {
+      log.info('fs.lstat localPath stat : ', stat)
+    }
+  })
+
+  fs.stat(localDownloadFolder, (err, stat) => {
+    if (err) {
+      log.info('fs.stat localDownloadFolder err : ', err)
+    }
+    if (stat) {
+      log.info('fs.stat localDownloadFolder stat : ', stat)
+    }
+  })
+
+  fs.stat(localPath, (err, stat) => {
+    if (err) {
+      log.info('fs.stat localPath err : ', err)
+    }
+    if (stat) {
+      log.info('fs.stat localPath stat : ', stat)
+    }
+  })
+
+  // エラー内容：Error: EPERM: operation not permitted, mkdir 'C:\Program Files\5af9bbe4-19ab-4b38-adeb-995e8981f028'
+  // fs.mkdir(localPath,{ recursive: true }, (err) => {
+  //   if (err) {
+  //     log.info('fs.mkdir err : ', err)
+  //   } else {
+  //     log.info('fs.mkdir success')
+  //   }
+  // })
 
   mkdirp(localPath, (err) => {
     if (err) {
