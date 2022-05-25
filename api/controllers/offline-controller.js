@@ -201,7 +201,7 @@ OfflineController.prototype.getManifestInfoPromise = function (manifestId, full)
         log.info('offline-controller getManifestInfo err : ', err)
         reject(err)
       } else {
-        log.info('offline-controller getManifestInfo result : ', result)
+        log.info('offline-controller getManifestInfo result')
         resolve(result);
       }
     }, full)

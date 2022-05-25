@@ -540,7 +540,7 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
   }
 
   // TODO: テスト用コード追加
-  fs.access(localPath, fs.constants.X_OK, (err) => {
+  fs.access(localDownloadFolder, fs.constants.X_OK, (err) => {
     if (err) {
       log.info('fs.access execute err : ', err)
     } else {
@@ -548,7 +548,7 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
     }
   })
 
-  fs.access(localPath, fs.constants.R_OK, (err) => {
+  fs.access(localDownloadFolder, fs.constants.R_OK, (err) => {
     if (err) {
       log.info('fs.access read err : ', err)
     } else {
@@ -556,7 +556,7 @@ DownloadsController.prototype.start = function (manifestId, representations, dow
     }
   })
 
-  fs.access(localPath, fs.constants.W_OK, (err) => {
+  fs.access(localDownloadFolder, fs.constants.W_OK, (err) => {
     if (err) {
       log.info('fs.access write err : ', err)
     } else {
