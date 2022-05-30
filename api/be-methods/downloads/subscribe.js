@@ -2,6 +2,7 @@
 
 const translation = require('../../translation/index');
 const Subscriber = require("../../util/subscriber");
+const log = require('electron-log');
 
 module.exports = function (api, onSuccess, onFailure, target, manifestIds, timeout) {
   if (typeof manifestIds === 'string') {
@@ -12,6 +13,7 @@ module.exports = function (api, onSuccess, onFailure, target, manifestIds, timeo
 };
 
 function subscribeMany (api, onSuccess, onFailure, target, manifestIds, timeout) {
+  log.info('subscribe.js subscribeMany')
   let subscriber1, subscriber2, subscribersId;
   const manifestId = manifestIds.sort().join(',');
 
@@ -32,14 +34,17 @@ function subscribeMany (api, onSuccess, onFailure, target, manifestIds, timeout)
   }, api.processSubscriber, target, manifestId, timeout, true);
 
   subscriber2.onFinish(function (callback) {
+    log.info('subscribe.js subscribeMany onFinish')
     subscriber1.remove();
     let items = [];
     for (let i = 0, j = manifestIds.length; i < j; i++) {
       items.push(api.offlineController.getManifestInfoPromise(manifestIds[i]));
     }
     Promise.all(items).then(function (results) {
+      log.info('subscribe.js subscribeMany success')
       callback(null, results);
     }, function (err) {
+      log.info('subscribe.js subscribeMany err : ', err)
       callback(err);
     });
   });
@@ -49,6 +54,7 @@ function subscribeMany (api, onSuccess, onFailure, target, manifestIds, timeout)
 }
 
 function subscribeSingle (api, onSuccess, onFailure, target, manifestId, timeout) {
+  log.info('subscribe.js subscribeSingle')
   const manifest = api.manifestController.getManifestById(manifestId);
   let subscriber1, subscriber2, subscribersId;
   if (manifest) {
@@ -66,6 +72,7 @@ function subscribeSingle (api, onSuccess, onFailure, target, manifestId, timeout
     }, api.processSubscriber, target, manifestId, timeout, true);
 
     subscriber2.onFinish(function (callback) {
+      log.info('subscribe.js subscribeSingle onFinish')
       subscriber1.remove();
       api.offlineController.getManifestInfo(manifestId, function (err, result) {
         callback(err, result);
@@ -73,8 +80,10 @@ function subscribeSingle (api, onSuccess, onFailure, target, manifestId, timeout
     });
     subscribersId.push(api.subscribersController.addSubscriber(subscriber2));
 
+    log.info('subscribe.js subscribeSingle success')
     onSuccess(manifest.getJsonInfo(), subscribersId);
   } else {
+    log.info('subscribe.js subscribeMany onFailure')
     onFailure(translation.getError(translation.e.manifests.NOT_FOUND, manifestId));
   }
 }

@@ -17,6 +17,7 @@ const path = require("path");
 const ReadItem = require("../downloads/read-item");
 const FlushItem = require("../downloads/flush-item");
 const downloadFileUtil = require("../downloads/download-file-util");
+const log = require('electron-log');
 
 /**
  *
@@ -297,6 +298,7 @@ DownloadsController.prototype._stopWithStatus = function (manifestId, onSuccess,
  * @private
  */
 DownloadsController.prototype._onDownloadError = function (download, err) {
+  log.info('downloads-controller.js onDownloadError : ', err)
   console.error("ERROR", download.remoteUrl, err);
   this._markDownloadItem(download);
   if (err === downloadFileUtil.errors.NO_SPACE_LEFT_ERROR || appSettings.getSettings().stopOnError) {
