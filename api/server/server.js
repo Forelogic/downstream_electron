@@ -67,6 +67,7 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
     routeName: routeName,
     port: port
   };
+  log.info('data:', data);
   self.childProcess.send(data)
 
   self.childProcess.on('error', function (err) {
