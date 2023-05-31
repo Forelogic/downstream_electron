@@ -70,10 +70,12 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
   self.childProcess.send(data)
 
   self.childProcess.on('error', function (err) {
+    log.info('childProcess error:', err);
     console.error(err);
   })
   // handles message from child process
   self.childProcess.on('message', function (data) {
+    log.info('childProcess message:', data);
     if (data.cmd === 'log') {
       // http server wants to log some data
       console.log(data.log);
@@ -141,6 +143,8 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
   });
 
   self.childProcess.on('close', function (code, signal) {
+    log.info('childProcess close:', code);
+    log.info('childProcess close:', signal);
     // child has closed
     if (code == null) {
       console.log('Child process closed with signal:', signal);
