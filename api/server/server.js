@@ -8,6 +8,7 @@ const fs = require('fs');
 var fork = require('child_process').fork;
 const appSettings = require("../app-settings");
 const {app} = require('electron');
+const log = require('electron-log');
 
 const CHILD_SCRIPT_FILENAME = 'startServer.js';
 
