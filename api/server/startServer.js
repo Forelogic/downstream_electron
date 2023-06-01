@@ -3,6 +3,7 @@ const cors = require('cors');
 const log = require('electron-log');
 
 (function () {
+  log.info('startServer.js');
 
   process.send({cmd: 'log',
                 log: 'Starting HTTP server'});
