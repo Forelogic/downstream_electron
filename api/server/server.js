@@ -55,11 +55,12 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
   let script = path.join(app.getAppPath(), 'node_modules/downstream-electron', CHILD_SCRIPT_FILENAME);
   console.log('Script for server:', script);
   log.info('script_test for server:', script_test);
-  log.info('Script for server:', script);
+  log.info('Script      for server:', script);
 
   //  FOR DEBUG PURPOSE self.childProcess = fork(script ,[],{execArgv:['--inspect=5860']});
   self.childProcess = fork(script, []);
   let routeName = appSettings.getSettings().downloadsName;
+  log.info('routeName:', routeName);
 
   // send init data for http server
   let data = {
@@ -67,13 +68,16 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
     routeName: routeName,
     port: port
   };
+  log.info('data:', data);
   self.childProcess.send(data)
 
   self.childProcess.on('error', function (err) {
+    log.info('childProcess error:', err);
     console.error(err);
   })
   // handles message from child process
   self.childProcess.on('message', function (data) {
+    log.info('childProcess message:', data);
     if (data.cmd === 'log') {
       // http server wants to log some data
       console.log(data.log);
@@ -141,6 +145,8 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
   });
 
   self.childProcess.on('close', function (code, signal) {
+    log.info('childProcess close/code:', code);
+    log.info('childProcess close/signal:', signal);
     // child has closed
     if (code == null) {
       console.log('Child process closed with signal:', signal);
