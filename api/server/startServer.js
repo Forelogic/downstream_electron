@@ -5,8 +5,8 @@ const log = require('electron-log');
 (function () {
 
   process.send({cmd: 'log',
-                log: 'Starting HTTP server'});
-  log.info('Starting HTTP server');
+                log: 'Starting HTTP server C'});
+  log.info('Starting HTTP server A');
   let server = express();
   server.use(cors());
 
@@ -19,9 +19,9 @@ const log = require('electron-log');
       require('./contentRoute')(server, data.routeName);
       // start http server
       server.listen(data.port, function () {
-        log.info('listening on port:', data.port);
+        log.info('listening on port A:', data.port);
         // http server is listening => send back listening port
-        process.send({cmd: 'listening_port', port: data.port});
+        process.send({cmd: 'listening_port C', port: data.port});
       });
     }
   });
