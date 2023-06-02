@@ -39,11 +39,15 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
 
   // NOTE: this is so ugly FIXME
   let serverPath = path.join(app.getAppPath(), 'node_modules/downstream-electron');
+  log.info('A');
   if (!fs.existsSync(path.join(serverPath, CHILD_SCRIPT_FILENAME))) {
+    log.info('B');
     serverPath = path.join(app.getAppPath(), 'node_modules/downstream-electron/api/server');
     if (!fs.existsSync(path.join(serverPath, CHILD_SCRIPT_FILENAME))) {
+      log.info('C');
       serverPath = app.getAppPath();
       if (!fs.existsSync(path.join(serverPath, CHILD_SCRIPT_FILENAME))) {
+        log.info('D');
           serverPath = __dirname;
       }
     }
@@ -67,7 +71,7 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
     routeName: routeName,
     port: port
   };
-  log.info('data A:', data);
+  log.info('data:', data);
   self.childProcess.send(data)
 
   self.childProcess.on('error', function (err) {
@@ -144,8 +148,8 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
   });
 
   self.childProcess.on('close', function (code, signal) {
-    log.info('childProcess close:', code);
-    log.info('childProcess close:', signal);
+    log.info('childProcess close/code:', code);
+    log.info('childProcess close/signal:', signal);
     // child has closed
     if (code == null) {
       console.log('Child process closed with signal:', signal);
@@ -176,14 +180,17 @@ OfflineContentServer.prototype.serveOfflineContent = function (callback) {
     }
     isPortTaken(port, function (err) {
       if (err) {
+        log.info('isPortTaken err:', err);
         port++;
         startOnPort(port);
       } else {
         console.log('Port found:', port)
+        log.info('Port found:', port);
         self._startServer(port, function () {
           self._offlineContentPort = port;
           callback(self._offlineContentPort);
           console.info('Offline content served on port:', port);
+          log.info('Offline content served on port:', port);
         });
       }
     });

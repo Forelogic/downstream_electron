@@ -4,6 +4,7 @@ const net = require('net');
 const log = require('electron-log');
 
 module.exports = function (port, fn) {
+  log.info('is-port-taken port:', port);
   const tester = net.createServer().once('error', function (err) {
     log.info('is-port-taken err', err);
     if (err) {
