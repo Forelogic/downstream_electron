@@ -154,6 +154,15 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
       console.log('Child process closed with code:', code);
     }
   });
+
+  self.childProcess.on('exit', function (code, signal) {
+    log.info('childProcess exit/code:', code);
+    log.info('childProcess exit/signal:', signal);
+  });
+
+  self.childProcess.on('disconnect', function () {
+    log.info('childProcess disconnect');
+  });
 }
 /**
  * @param {Function} callback - a callback function to get listen port (if default is taken)
