@@ -55,7 +55,7 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
   let script = path.join(app.getAppPath(), 'node_modules/downstream-electron', CHILD_SCRIPT_FILENAME);
   console.log('Script for server:', script);
   log.info('script_test for server:', script_test);
-  log.info('Script for server:', script);
+  log.info('Script      for server:', script);
 
   //  FOR DEBUG PURPOSE self.childProcess = fork(script ,[],{execArgv:['--inspect=5860']});
   self.childProcess = fork(script, []);
@@ -67,7 +67,7 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
     routeName: routeName,
     port: port
   };
-  log.info('data:', data);
+  log.info('data A:', data);
   self.childProcess.send(data)
 
   self.childProcess.on('error', function (err) {
