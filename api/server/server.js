@@ -197,6 +197,7 @@ OfflineContentServer.prototype.serveOfflineContent = function (callback) {
  * @returns
  */
 OfflineContentServer.prototype.stop = function () {
+  log.info('childProcess.kill');
   this.childProcess.kill('SIGTERM');
 }
 
