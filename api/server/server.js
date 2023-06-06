@@ -168,6 +168,7 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
 
   self.childProcess.on('disconnect', function () {
     log.info('childProcess disconnect');
+    log.info('connected C:', self.childProcess.connected);
   });
 }
 /**
