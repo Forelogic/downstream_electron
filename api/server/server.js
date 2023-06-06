@@ -21,6 +21,7 @@ const CHILD_SCRIPT_FILENAME = 'startServer.js';
  * @constructor
  */
 function OfflineContentServer (offlineController, downloadController, maxOfflineContentPortRange, offlineContentPort) {
+  log.info('OfflineContentServer');
   this._offlineController = offlineController;
   this._downloadController = downloadController;
   this._maxOfflineContentPortRange = maxOfflineContentPortRange;
