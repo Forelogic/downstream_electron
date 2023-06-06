@@ -73,7 +73,9 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
     port: port
   };
   log.info('data:', data);
+  log.info('connected A:', self.childProcess.connected);
   self.childProcess.send(data)
+  log.info('connected B:', self.childProcess.connected);
 
   self.childProcess.on('error', function (err) {
     log.info('childProcess error:', err);
