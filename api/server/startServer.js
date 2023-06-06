@@ -22,7 +22,7 @@ const log = require('electron-log');
       server.listen(data.port, function () {
         log.info('listening on port A:', data.port);
         // http server is listening => send back listening port
-        process.send({cmd: 'listening_port A', port: data.port});
+        process.send({cmd: 'listening_port', port: data.port});
       });
     }
   });
