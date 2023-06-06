@@ -177,14 +177,17 @@ OfflineContentServer.prototype.serveOfflineContent = function (callback) {
     }
     isPortTaken(port, function (err) {
       if (err) {
+        log.info('isPortTaken err:', err);
         port++;
         startOnPort(port);
       } else {
         console.log('Port found:', port)
+        log.info('Port found:', port);
         self._startServer(port, function () {
           self._offlineContentPort = port;
           callback(self._offlineContentPort);
           console.info('Offline content served on port:', port);
+          log.info('Offline content served on port:', port);
         });
       }
     });
