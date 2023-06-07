@@ -43,13 +43,13 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
     if (!fs.existsSync(path.join(serverPath, CHILD_SCRIPT_FILENAME))) {
       serverPath = app.getAppPath();
       if (!fs.existsSync(path.join(serverPath, CHILD_SCRIPT_FILENAME))) {
-        serverPath = __dirname;
+          serverPath = __dirname;
       }
     }
   }
 
   console.log('Server Path:', serverPath);
-  let script = path.join(serverPath, CHILD_SCRIPT_FILENAME);
+  let script = path.join(app.getAppPath(), 'node_modules/downstream-electron', CHILD_SCRIPT_FILENAME);
   console.log('Script for server:', script);
 
   //  FOR DEBUG PURPOSE self.childProcess = fork(script ,[],{execArgv:['--inspect=5860']});
@@ -80,7 +80,6 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
     }
 
     if (data.cmd === 'get_info') {
-
       let requestId = data.requestId;
       // http server asks data folder for manifest id
       let manifestId = data.args.manifest;
