@@ -62,6 +62,12 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
   log.info('script_test for server:', script_test);
   log.info('Script      for server:', script);
 
+  if (fs.existsSync(script)) {
+    log.info('ファイルは存在します。');
+  } else {
+    log.info('ファイルは存在しません。');
+  }
+
   //  FOR DEBUG PURPOSE self.childProcess = fork(script ,[],{execArgv:['--inspect=5860']});
   self.childProcess = fork(script, []);
   let routeName = appSettings.getSettings().downloadsName;
