@@ -69,7 +69,11 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
   }
 
   //  FOR DEBUG PURPOSE self.childProcess = fork(script ,[],{execArgv:['--inspect=5860']});
-  self.childProcess = fork(script, []);
+  try {
+    self.childProcess = fork(script, []);
+  } catch (e) {
+    log.info('err 1', e)
+  }
   let routeName = appSettings.getSettings().downloadsName;
 
   // send init data for http server
@@ -80,7 +84,11 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
   };
   log.info('data:', data);
   log.info('connected A:', self.childProcess.connected);
-  self.childProcess.send(data)
+  try {
+    self.childProcess.send(data)
+  } catch (e) {
+    log.info('err 2', e)
+  }
   log.info('connected B:', self.childProcess.connected);
 
   self.childProcess.on('error', function (err) {
