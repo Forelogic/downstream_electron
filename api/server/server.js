@@ -70,7 +70,7 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
   }
 
   try {
-    const child = spawn('node',　script);
+    const child = spawn('node',　[script]);
     child.on('exit', (code, signal) => {
       log.info(`プロセス終了: コード ${code}, シグナル ${signal}`);
     });
