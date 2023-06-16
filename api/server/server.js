@@ -6,6 +6,7 @@ const isPortTaken = require('../util/is-port-taken');
 const path = require('path');
 const fs = require('fs');
 var fork = require('child_process').fork;
+const { spawn } = require('child_process');
 const appSettings = require("../app-settings");
 const {app} = require('electron');
 const log = require('electron-log');
@@ -66,6 +67,25 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
     log.info('ファイルは存在します。');
   } else {
     log.info('ファイルは存在しません。');
+  }
+
+  try {
+    const child = spawn('node',　script);
+    child.on('exit', (code, signal) => {
+      log.info(`プロセス終了: コード ${code}, シグナル ${signal}`);
+    });
+
+// プロセスの標準出力を取得
+    child.stdout.on('data', (data) => {
+      log.info(`標準出力: ${data}`);
+    });
+
+// プロセスの標準エラー出力を取得
+    child.stderr.on('data', (data) => {
+      log.info(`標準エラー出力: ${data}`);
+    });
+  } catch (err) {
+    log.info('子プロセスの起動中にエラーが発生しました:', err);
   }
 
   //  FOR DEBUG PURPOSE self.childProcess = fork(script ,[],{execArgv:['--inspect=5860']});
