@@ -92,10 +92,6 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
   log.info('test');
   log.info('connected B:', self.childProcess.connected);
 
-  self.childProcess.stderr.on('data', (data) => {
-    log.info('子プロセスでエラーが発生しました:', data.toString());
-  });
-
   self.childProcess.on('error', function (err) {
     log.info('childProcess error:', err);
     console.error(err);
