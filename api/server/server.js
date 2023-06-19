@@ -84,11 +84,12 @@ OfflineContentServer.prototype._startServer = function (port, callback) {
   };
   log.info('data:', data);
   log.info('connected A:', self.childProcess.connected);
-  try {
-    self.childProcess.send(data)
-  } catch (e) {
-    log.info('err 2', e)
-  }
+  // try {
+  //   self.childProcess.send(data)
+  // } catch (e) {
+  //   log.info('err 2', e)
+  // }
+  log.info('sendしない');
   log.info('connected B:', self.childProcess.connected);
 
   self.childProcess.on('error', function (err) {
