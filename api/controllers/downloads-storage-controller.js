@@ -117,6 +117,7 @@ DownloadsStorageController.prototype._flush = function () {
       try {
         flushItem = new FlushItem(manifestId, storageKey, getItems(manifestId, storageKey));
         flushItems.push(flushItem.save());
+        console.info("downloads-storage-comtroller _flush : ", storageKey, getItems(manifestId, storageKey));
       } catch (e) {
         console.error("ERROR", storageKey);
       }

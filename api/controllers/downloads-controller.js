@@ -383,6 +383,7 @@ DownloadsController.prototype.getDownloading = function (manifestId, localFile) 
       let downloadPath = path.normalize(download.localUrl);
       let local = path.normalize(localFile);
       if (downloadPath === local) {
+        console.log('downloads-controller getDownloading : ', download);
         return download;
       }
     }
