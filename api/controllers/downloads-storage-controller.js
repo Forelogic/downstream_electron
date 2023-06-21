@@ -9,6 +9,7 @@ const FlushItem = require("../downloads/flush-item");
 const Storage = require("./../util/storage");
 const StorageBridge = require("./../util/storage-bridge");
 const SyncItem = require("../downloads/sync-item");
+const log = require('electron-log');
 
 /**
  *
@@ -117,9 +118,9 @@ DownloadsStorageController.prototype._flush = function () {
       try {
         flushItem = new FlushItem(manifestId, storageKey, getItems(manifestId, storageKey));
         flushItems.push(flushItem.save());
-        console.info("downloads-storage-comtroller _flush : ", storageKey, getItems(manifestId, storageKey));
+        log.info("downloads-storage-comtroller _flush : ", storageKey, getItems(manifestId, storageKey));
       } catch (e) {
-        console.error("ERROR", storageKey);
+        log.info("ERROR", storageKey);
       }
     }
   }
@@ -182,7 +183,7 @@ DownloadsStorageController.prototype._itemAction = function (storageKey, bridgeM
   } else {
     //if manifest still exists
     if (this._items[manifestId]) {
-      console.error("ERROR", manifestId, storageKey, bridgeMethodName, args);
+      log.info("ERROR", manifestId, storageKey, bridgeMethodName, args);
     }
     return undefined;
   }
