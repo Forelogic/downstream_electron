@@ -2,8 +2,10 @@
 
 const translation = require('../../translation/index');
 const Subscriber = require("../../util/subscriber");
+const log = require('electron-log');
 
 module.exports = function (api, onSuccess, onFailure, target, manifestIds, timeout) {
+  log.info('typeof manifestIds : ', typeof manifestIds)
   if (typeof manifestIds === 'string') {
     subscribeSingle(api, onSuccess, onFailure, target, manifestIds, timeout);
   } else {
