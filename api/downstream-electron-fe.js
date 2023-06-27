@@ -6,6 +6,7 @@ const remote = require('electron').remote;
 const ipcRenderer = require('electron').ipcRenderer;
 
 const translation = require("./translation/index");
+const log = require('electron-log');
 
 let downstreamElectronFE;
 
@@ -232,6 +233,7 @@ DownstreamElectronFE.prototype.downloads.removeAll = function (args, resolve, re
  * @returns {Promise} - promise
  */
 DownstreamElectronFE.prototype._apiCall = function (method, args, originalMethod) {
+  log.info('downstream-electron-fe _apiCall');
   const self = this;
   const promiseId = this._generatePromiseId();
   const promise = new Promise(function (resolve, reject) {
@@ -496,6 +498,7 @@ DownstreamElectronFE.prototype._saveSubscribersId = function (promise, subscribe
  * @returns {void}
  */
 DownstreamElectronFE.prototype._send = function (request) {
+  log.info('downstream-electron-fe _send');
   try {
     ipcRenderer.send('downstreamElectronBE', request);
   } catch (e) {

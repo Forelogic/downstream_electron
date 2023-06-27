@@ -10,6 +10,7 @@ const ManifestController = require('./controllers/manifest-controller');
 const OfflineController = require('./controllers/offline-controller');
 const SubscribersController = require('./controllers/subscribers-controller');
 const Server = require('./server/server.js');
+const log = require('electron-log');
 
 let DownstreamElectronBE;
 
@@ -83,6 +84,7 @@ DownstreamElectronBE.prototype.stop = function () {
  * @returns {void}
  */
 DownstreamElectronBE.prototype._apiMethods = function (methodName, promiseId, args, target) {
+  log.info('downstream-electron-be _apiMethods');
   const self = this;
   const manifestId = args[0];
   let response = {};
@@ -140,6 +142,7 @@ DownstreamElectronBE.prototype._apiMethods = function (methodName, promiseId, ar
  * @returns {void}
  */
 DownstreamElectronBE.prototype._attachEvents = function () {
+  log.info('downstream-electron-be _attachEvents');
   const ipcMain = require('electron').ipcMain;
   ipcMain.on("downstreamElectronBE", this._onApiRequest);
 };
@@ -181,6 +184,7 @@ DownstreamElectronBE.prototype._getMethod = function (methodName) {
  * @returns {void}
  */
 DownstreamElectronBE.prototype._onApiRequest = function (evt, data, target) {
+  log.info('downstream-electron-be _onApiRequest');
   const promiseId = data.promiseId;
   const argsObj = data.args || {};
   const method = data.method;
@@ -202,6 +206,7 @@ DownstreamElectronBE.prototype._onApiRequest = function (evt, data, target) {
  * @returns {void}
  */
 DownstreamElectronBE.prototype._send = function (response, target) {
+  log.info('downstream-electron-be _onApiRequest');
   try {
     const windows = require('electron').BrowserWindow.getAllWindows();
     for (let i = 0, j = windows.length; i < j; i++) {
