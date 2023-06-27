@@ -17,7 +17,6 @@ const path = require("path");
 const ReadItem = require("../downloads/read-item");
 const FlushItem = require("../downloads/flush-item");
 const downloadFileUtil = require("../downloads/download-file-util");
-const log = require('electron-log');
 
 /**
  *
@@ -384,7 +383,7 @@ DownloadsController.prototype.getDownloading = function (manifestId, localFile) 
       let downloadPath = path.normalize(download.localUrl);
       let local = path.normalize(localFile);
       if (downloadPath === local) {
-        log.info('downloads-controller getDownloading : ', download);
+        console.log('downloads-controller getDownloading : ', download);
         return download;
       }
     }

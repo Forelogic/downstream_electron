@@ -1,6 +1,5 @@
 "use strict";
 const _ = require("underscore");
-const log = require('electron-log');
 
 /**
  * how much of progress should be connected with writing chunks to a hard drive (1 - 100%)
@@ -105,8 +104,8 @@ DownloadStats.prototype._generate = function (refresh) {
 
   this._clearSpeed();
 
-  log.info('download_status genenrate');
-  log.info('manifests : ', manifests);
+  console.log('download_status genenrate');
+  console.log('manifests : ', manifests);
 
   function countParts (items) {
     let parts = 0;
@@ -170,7 +169,7 @@ DownloadStats.prototype._generate = function (refresh) {
   }
   for (let i = 0, j = manifests.length; i < j; i++) {
     let manifestId = manifests[i];
-    log.info('manifestId : ', manifestId);
+    console.log('manifestId : ', manifestId);
     allStats[manifestId] = _.clone(stats);
     allStats[manifestId].left = this._storage.left.count(manifestId);
     allStats[manifestId].leftI = this._storage.left.getItems(manifestId);
@@ -281,7 +280,7 @@ DownloadStats.prototype._generate = function (refresh) {
     }
     allStats[manifestId].progressById = progressById;
     allStats[manifestId].progressByIdPercent = progressByIdPercent;
-    log.info('stats : ', allStats[manifestId]);
+    console.log('stats : ', allStats[manifestId]);
   }
   let showStats = {};
   for (let i = 0, j = manifests.length; i < j; i++) {
@@ -308,7 +307,7 @@ DownloadStats.prototype._generate = function (refresh) {
   for (let key in showStats) {
     if (showStats.hasOwnProperty(key)) {
       this._stats[key] = showStats[key];
-      log.info('stats : ', this._stats[key]);
+      console.log('stats : ', this._stats[key]);
     }
   }
   if (!refresh) {
