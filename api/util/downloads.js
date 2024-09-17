@@ -2,6 +2,7 @@
 
 const constants = require("../constants");
 const utilUrl = require("./url");
+const log = require('electron-log');
 
 /**
  * @module
@@ -96,6 +97,12 @@ downloadUtil.getDownloadLinks = function getDownloadLinks (manifestId, localPath
       if (index > -1) {
         localUrl = localUrl.substr(0, index);
       }
+
+      console.log('localUrl = ', localUrl);
+      const index_o = mediaFile.indexOf('.mp4');
+      let fileName_o = mediaFile.substring(0, index_o) + '.mp4';
+      let localUrl_o = utilUrl.joinPathWithFile(localPath, fileName_o);
+      console.log('localUrl_o = ', localUrl_o);
       if ((!downloadedHash[localUrl]) || (!downloadedHash[localUrl] && downloadedHash[localUrl].remoteUrl !== remoteUrl)) {
         if (!links[k]) {
           links[k] = [];
