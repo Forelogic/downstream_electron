@@ -2,7 +2,6 @@
 
 const constants = require("../constants");
 const utilUrl = require("./url");
-const log = require('electron-log');
 
 /**
  * @module
